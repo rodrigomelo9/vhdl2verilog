@@ -1,0 +1,1031 @@
+; VHDL 93 Syntax in Backus–Naur Form (BNF) notation
+; From IEEE Std 1076-1993. Ordered as appears in the standard.
+;
+; UPPERCASE words are used to denote reserved words.
+; If a syntactic category use *xyz_*, is equivalent to the category name
+; without it. Is intended to convey some semantic information.
+
+; -----------------------------------------------------------------------------
+; Section 1: Design entities and configurations
+; -----------------------------------------------------------------------------
+
+entity_declaration ::=
+     ENTITY identifier IS
+          entity_header
+          entity_declarative_part
+   [ BEGIN
+          entity_statement_part ]
+     END [ ENTITY ] [ *entity_*simple_name ] ;
+
+entity_header ::=
+   [ *formal_*generic_clause ]
+   [ *formal_*port_clause ]
+
+generic_clause ::=
+     GENERIC ( generic_list ) ;
+
+port_clause ::=
+     PORT ( port_list ) ;
+
+generic_list ::= *generic_*interface_list
+
+port_list ::= *port_*interface_list
+
+entity_declarative_part ::=
+   { entity_declarative_item }
+
+entity_declarative_item ::=
+     subprogram_declaration
+   | subprogram_body
+   | type_declaration
+   | subtype_declaration
+   | constant_declaration
+   | signal_declaration
+   | *shared_*variable_declaration
+   | file_declaration
+   | alias_declaration
+   | attribute_declaration
+   | attribute_specification
+   | disconnection_specification
+   | use_clause
+   | group_template_declaration
+   | group_declaration
+
+entity_statement_part ::=
+   { entity_statement }
+
+entity_statement ::=
+     concurrent_assertion_statement
+   | *passive_*concurrent_procedure_call
+   | *passive_*process_statement
+
+architecture_body ::=
+     ARCHITECTURE identifier OF *entity_*name IS
+         architecture_declarative_part
+     BEGIN
+         architecture_statement_part
+     END [ARCHITECTURE] [ *architecture_*simple_name ] ;
+
+architecture_declarative_part ::=
+   { block_declarative_item }
+
+block_declarative_item ::=
+     subprogram_declaration
+   | subprogram_body
+   | type_declaration
+   | subtype_declaration
+   | constant_declaration
+   | signal_declaration
+   | *shared_*variable_declaration
+   | file_declaration
+   | alias_declaration
+   | component_declaration
+   | attribute_declaration
+   | attribute_specification
+   | configuration_specification
+   | disconnection_specification
+   | use_clause
+   | group_template_declaration
+   | group_declaration
+
+architecture_statement_part ::=
+   { concurrent_statement }
+
+configuration_declaration ::=
+     CONFIGURATION identifier OF *entity_*name IS
+          configuration_declarative_part
+          block_configuration
+     END [ CONFIGURATION ] [ *configuration_*simple_name ] ;
+
+configuration_declarative_part ::=
+   { configuration_declarative_item }
+
+configuration_declarative_item ::=
+     use_clause
+   | attribute_specification
+   | group_declaration
+
+block_configuration ::=
+     FOR block_specification
+        { use_clause }
+        { configuration_item }
+     END FOR ;
+
+block_specification ::=
+     *architecture_*name
+   | *block_statement_*label
+   | *generate_statement_*label [ ( index_specification ) ]
+
+index_specification ::=
+     discrete_range
+   | *static_*expression
+
+configuration_item ::=
+     block_configuration
+   | component_configuration
+
+component_configuration ::=
+     FOR component_specification
+        [ binding_indication ; ]
+        [ block_configuration ]
+     END FOR ;
+
+; -----------------------------------------------------------------------------
+; Section 2: Subprograms and packages
+; -----------------------------------------------------------------------------
+
+subprogram_declaration ::=
+     subprogram_specification ;
+
+subprogram_specification ::=
+     PROCEDURE designator [ ( formal_parameter_list ) ]
+ | [ PURE | IMPURE ] FUNCTION designator [ ( formal_parameter_list ) ]
+     RETURN type_mark
+
+designator ::= identifier | operator_symbol
+
+operator_symbol ::= string_literal
+
+formal_parameter_list ::= *parameter_*interface_list
+
+subprogram_body ::=
+     subprogram_specification IS
+          subprogram_declarative_part
+     BEGIN
+          subprogram_statement_part
+     END [ subprogram_kind ] [ designator ] ;
+
+subprogram_declarative_part ::=
+   { subprogram_declarative_item }
+
+subprogram_declarative_item ::=
+     subprogram_declaration
+   | subprogram_body
+   | type_declaration
+   | subtype_declaration
+   | constant_declaration
+   | variable_declaration
+   | file_declaration
+   | alias_declaratio
+   | attribute_declaration
+   | attribute_specification
+   | use_clause
+   | group_template_declaration
+   | group_declaration
+
+subprogram_statement_part ::=
+   { sequential_statement }
+
+subprogram_kind ::= PROCEDURE | FUNCTION
+
+signature ::= [ [ type_mark { , type_mark } ] [ RETURN type_mark ] ]
+
+package_declaration ::=
+     PACKAGE identifier IS
+         package_declarative_part
+     END [ PACKAGE ] [ *package_*simple_name ] ;
+
+package_declarative_part ::=
+   { package_declarative_item }
+
+package_declarative_item ::=
+     subprogram_declaration
+   | type_declaration
+   | subtype_declaration
+   | constant_declaration
+   | signal_declaration
+   | *shared_*variable_declaration
+   | file_declaration
+   | alias_declaration
+   | component_declaration
+   | attribute_declaration
+   | attribute_specification
+   | disconnection_specification
+   | use_clause
+   | group_template_declaration
+   | group_declaration
+
+package_body ::=
+     PACKAGE BODY *package_*simple_name IS
+          package_body_declarative_part
+     END [ PACKAGE BODY ] [ *package_*simple_name ] ;
+
+package_body_declarative_part ::=
+   { package_body_declarative_item }
+
+package_body_declarative_item ::=
+     subprogram_declaration
+   | subprogram_body
+   | type_declaration
+   | subtype_declaration
+   | constant_declaration
+   | *shared_*variable_declaration
+   | file_declaration
+   | alias_declaration
+   | use_clause
+   | group_template_declaration
+   | group_ declaration
+
+; -----------------------------------------------------------------------------
+; Section 3: Types
+; -----------------------------------------------------------------------------
+
+scalar_type_definition ::=
+     enumeration_type_definition
+   | integer_type_definition
+   | floating_type_definition
+   | physical_type_definition
+
+range_constraint ::= RANGE range
+
+range ::=
+     *range_*attribute_name
+   | simple_expression direction simple_expression
+
+direction ::= TO | DOWNTO
+
+enumeration_type_definition ::=
+   ( enumeration_literal { , enumeration_literal } )
+
+enumeration_literal ::= identifier | character_literal
+
+integer_type_definition ::= range_constraint
+
+physical_type_definition ::=
+     range_constraint
+          UNITS
+               primary_unit_declaration
+             { secondary_unit_declaration }
+          END UNITS [ *physical_type_*simple_name ]
+
+primary_unit_declaration ::= identifier
+
+secondary_unit_declaration ::= identifier = physical_literal ;
+
+physical_literal ::= [ abstract_literal ] *unit_*name
+
+floating_type_definition ::= range_constraint
+
+composite_type_definition ::=
+     array_type_definition
+   | record_type_definition
+
+array_type_definition ::=
+     unconstrained_array_definition | constrained_array_definition
+
+unconstrained_array_definition ::=
+     ARRAY ( index_subtype_definition { , index_subtype_definition } )
+          OF *element_*subtype_indication
+
+constrained_array_definition ::=
+     ARRAY index_constraint OF *element_*subtype_indication
+
+index_subtype_definition ::= type_mark RANGE <>
+
+index_constraint ::= ( discrete_range { , discrete_range } )
+
+discrete_range ::= *discrete_*subtype_indication | range
+
+record_type_definition ::=
+     RECORD
+          element_declaration
+        { element_declaration }
+     END RECORD [ *record_type_*simple_name ]
+
+element_declaration ::=
+     identifier_list : element_subtype_definition ;
+
+identifier_list ::= identifier { , identifier }
+
+element_subtype_definition ::= subtype_indication
+
+access_type_definition ::= ACCESS subtype_indication
+
+incomplete_type_declaration ::= TYPE identifier ;
+
+file_type_definition ::= FILE OF type_mark
+
+; -----------------------------------------------------------------------------
+; Section 4: Declarations
+; -----------------------------------------------------------------------------
+
+declaration ::=
+     type_declaration
+   | subtype_declaration
+   | object_declaration
+   | interface_declaration
+   | alias_declaration
+   | attribute_declaration
+   | component_declaration
+   | group_template_declaration
+   | group_declaration
+   | entity_declaration
+   | configuration_declaration
+   | subprogram_declaration
+   | package_declaration
+
+type_declaration ::=
+     full_type_declaration
+   | incomplete_type_declaration
+
+full_type_declaration ::=
+     TYPE identifier IS type_definition ;
+
+type_definition ::=
+     scalar_type_definition
+   | composite_type_definition
+   | access_type_definition
+   | file_type_definition
+
+subtype_declaration ::=
+     SUBTYPE identifier IS subtype_indication ;
+
+subtype_indication ::=
+   [ *resolution_function_*name ] type_mark [ constraint ]
+
+type_mark ::=
+     *type_*name
+   | *subtype_*name
+
+constraint ::=
+     range_constraint
+   | index_constraint
+
+object_declaration ::=
+     constant_declaration
+   | signal_declaration
+   | variable_declaration
+   | file_declaration
+
+constant_declaration ::=
+     CONSTANT identifier_list : subtype_indication [ := expression ] ;
+
+signal_declaration ::=
+     SIGNAL identifier_list : subtype_indication [ signal_kind ] [ := expression ] ;
+     
+signal_kind ::= REGISTER | BUS
+
+variable_declaration ::=
+   [ SHARED ] VARIABLE identifier_list : subtype_indication [ := expression ] ;
+
+file_declaration ::=
+     FILE identifier_list : subtype_indication [ file_open_information ] ;
+
+file_open_information ::= [ OPEN *file_open_*kind_expression ] IS file_logical_name
+
+file_logical_name ::= *string_*expression
+
+interface_declaration ::=
+     interface_constant_declaration
+   | interface_signal_declaration
+   | interface_variable_declaration
+   | interface_file_declaration
+
+interface_constant_declaration ::=
+     [CONSTANT] identifier_list : [ IN ] subtype_indication [ := *static_*expression ]
+
+interface_signal_declaration ::=
+     [SIGNAL] identifier_list : [ mode ] subtype_indication [ BUS ] [ := *static_*expression ]
+
+interface_variable_declaration ::=
+     [VARIABLE] identifier_list : [ mode ] subtype_indication [ := *static_*expression ]
+
+interface_file_declaration ::=
+     FILE identifier_list subtype_indication
+
+mode ::= IN | OUT | INOUT | BUFFER | LINKAGE
+
+interface_list ::=
+     interface_element { ; interface_element }
+
+interface_element ::= interface_declaration
+
+association_list ::=
+     association_element { , association_element }
+
+association_element ::=
+   [ formal_part => ] actual_part
+
+formal_part ::=
+     formal_designator
+   | *function_*name ( formal_designator )
+   | type_mark ( formal_designator )
+
+formal_designator ::=
+     *generic_*name
+   | *port_*name
+   | *parameter_*name
+
+actual_part ::=
+     actual_designator
+   | *function_*name ( actual_designator )
+   | type_mark ( actual_designator )
+
+actual_designator ::=
+     expression
+   | *signal_*name
+   | *variable_*name
+   | *file_*name
+   | OPEN
+
+alias_declaration ::=
+     ALIAS alias_designator [ : subtype_indication ] IS name [ signature ] ;
+
+alias_designator ::= identifier | character_literal | operator_symbol
+
+attribute_declaration ::=
+     ATTRIBUTE identifier: type_mark ;
+
+component_declaration ::=
+     COMPONENT identifier [ IS ]
+        [ *local_*generic_clause ]
+        [ *local_*port_clause ]
+     END COMPONENT [ *component_*simple_name ] ;
+
+group_template_declaration ::=
+     GROUP identifier IS ( entity_class_entry_list ) ;
+
+entity_class_entry_list ::=
+     entity_class_entry { , entity_class_entry }
+
+entity_class_entry ::= entity_class [ <> ]
+
+group_declaration ::=
+     GROUP identifier : *group_template_*name ( group_constituent_list ) ;
+
+group_constituent_list ::= group_constituent { , group_constituent }
+
+group_constituent ::= name | character_literal
+
+; -----------------------------------------------------------------------------
+; Section 5: Specifications
+; -----------------------------------------------------------------------------
+
+attribute_specification ::=
+     ATTRIBUTE attribute_designator OF entity_specification IS expression ;
+
+entity_specification ::=
+     entity_name_list : entity_class
+
+entity_class ::=
+     ENTITY    | ARCHITECTURE | CONFIGURATION
+   | PROCEDURE | FUNCTION     | PACKAGE
+   | TYPE      | SUBTYPE      | CONSTANT
+   | SIGNAL    | VARIABLE     | COMPONENT
+   | LABEL     | LITERAL      | UNITS
+   | GROUP     | FILE
+
+entity_name_list ::=
+     entity_designator { , entity_designator }
+   | OTHERS
+   | ALL
+
+entity_designator ::= entity_tag [ signature ]
+
+entity_tag ::= simple_name | character_literal | operator_symbol
+
+configuration_specification ::=
+     FOR component_specification binding_indication ;
+
+component_specification ::=
+     instantiation_list : *component_*name
+
+instantiation_list ::=
+     *instantiation_*label { , *instantiation_*label }
+   | OTHERS
+   | ALL
+
+binding_indication ::=
+   [ USE entity_aspect ]
+   [ generic_map_aspect ]
+   [ port_map_aspect ]
+
+entity_aspect ::=
+     ENTITY *entity_*name [ ( *architecture_*identifier) ]
+   | CONFIGURATION *configuration_*name
+   | OPEN
+
+generic_map_aspect ::=
+     GENERIC MAP ( *generic_*association_list )
+
+port_map_aspect ::=
+     PORT MAP ( *port_*association_list )
+
+disconnection_specification ::=
+     DISCONNECT guarded_signal_specification AFTER *time_*expression ;
+
+guarded_signal_specification ::=
+     *guarded_*signal_list : type_mark
+
+signal_list ::=
+     *signal_*name { , *signal_*name }
+   | OTHERS
+   | ALL
+
+; -----------------------------------------------------------------------------
+; Section 6: Names
+; -----------------------------------------------------------------------------
+
+name ::=
+     simple_name
+   | operator_symbol
+   | selected_name
+   | indexed_name
+   | slice_name
+   | attribute_name
+
+prefix ::=
+     name
+   | function_call
+
+simple_name ::= identifier
+
+selected_name ::= prefix . suffix
+
+suffix ::=
+     simple_name
+   | character_literal
+   | operator_symbol
+   | ALL
+
+indexed_name ::= prefix ( expression { , expression } )
+
+slice_name ::= prefix ( discrete_range )
+
+attribute_name ::=
+     prefix [ signature ] ' attribute_designator [ ( expression ) ]
+
+attribute_designator ::= *attribute_*simple_name
+
+; -----------------------------------------------------------------------------
+; Section 7: Expressions
+; -----------------------------------------------------------------------------
+
+expression ::=
+     relation { AND  relation }
+   | relation { OR   relation }
+   | relation { XOR  relation }
+   | relation [ NAND relation ]
+   | relation [ NOR  relation ]
+   | relation { XNOR relation }
+
+relation ::=
+     shift_expression [ relational_operator shift_expression ]
+
+shift_expression ::=
+     simple_expression [ shift_operator simple_expression ]
+
+simple_expression ::=
+   [ sign ] term { adding_operator term }
+
+term ::=
+     factor { multiplying_operator factor }
+
+factor ::=
+     primary [ ** primary ]
+   | ABS primary
+   | NOT primary
+
+primary ::=
+     name
+   | literal
+   | aggregate
+   | function_call
+   | qualified_expression
+   | type_conversion
+   | allocator
+   | ( expression )
+
+logical_operator       ::= AND  |  OR  | NAND | NOR  | XOR  | XNOR
+
+relational_operator    ::=  =   |  /=  |   <  |  <=  |  >   | >=
+
+shift_operator         ::= SLL  |  SRL |  SLA | SRA  | ROL  | ROR
+
+adding_operator        ::=  +   |   -  |   & 
+
+sign                   ::=  +   |   - 
+
+multiplying_operator   ::=  *   |   /  | MOD  |  REM
+
+miscellaneous_operator ::=  **  |  ABS | NOT
+
+literal ::=
+     numeric_literal
+   | enumeration_literal
+   | string_literal
+   | bit_string_literal
+   | NULL
+
+numeric_literal ::=
+     abstract_literal
+   | physical_literal
+
+aggregate ::=
+   ( element_association { , element_association } )
+
+element_association ::=
+   [ choices => ] expression
+
+choices ::= choice { | choice }
+
+choice ::=
+     simple_expression
+   | discrete_range
+   | *element_*simple_name
+   | OTHERS
+
+function_call ::=
+     *function_*name [ ( actual_parameter_part ) ]
+
+actual_parameter_part ::= *parameter_*association_list
+
+qualified_expression ::=
+     type_mark ' ( expression )
+   | type_mark ' aggregate
+
+type_conversion ::= type_mark ( expression )
+
+allocator ::=
+     NEW subtype_indication
+   | NEW qualified_expression
+
+; -----------------------------------------------------------------------------
+; Section 8: Sequential statements
+; -----------------------------------------------------------------------------
+
+sequence_of_statements ::=
+   { sequential_statement }
+
+sequential_statement ::=
+     wait_statement
+   | assertion_statement
+   | report_statement
+   | signal_assignment_statement
+   | variable_assignment_statement
+   | procedure_call_statement
+   | if_statement
+   | case_statement
+   | loop_statement
+   | next_statement
+   | exit_statement
+   | return_statement
+   | null_statement
+
+wait_statement ::=
+   [ label : ] WAIT [ sensitivity_clause ] [ condition_clause ] [ timeout_clause ] ;
+
+sensitivity_clause ::= ON sensitivity_list
+
+sensitivity_list ::= *signal_*name { , *signal_*name }
+
+condition_clause ::= UNTIL condition
+
+condition ::= *boolean_*expression
+
+timeout_clause ::= FOR *time_*expression
+
+assertion_statement ::= [ label : ] assertion ;
+
+assertion ::=
+     ASSERT condition
+        [ REPORT expression ]
+        [ SEVERITY expression ]
+
+report_statement ::=
+   [ label : ]
+          REPORT expression
+             [ SEVERITY expression ] ;
+
+signal_assignment_statement ::=
+   [ label : ] target <= [ delay_mechanism ] waveform ;
+
+delay_mechanism ::=
+     TRANSPORT
+ | [ REJECT *time_*expression ] INERTIAL
+
+target ::=
+     name
+   | aggregate
+
+waveform ::=
+     waveform_element { , waveform_element }
+   | UNAFFECTED
+
+waveform_element ::=
+     *value_*expression [ AFTER *time_*expression ]
+   | NULL [ AFTER *time_*expression ]
+
+variable_assignment_statement ::=
+   [ label : ] target := expression ;
+
+procedure_call_statement ::= [ label : ] procedure_call ;
+
+procedure_call ::= *procedure_*name [ ( actual_parameter_part ) ]
+
+if_statement ::=
+   [ *if_*label : ]
+          IF condition THEN
+               sequence_of_statements
+        { ELSIF condition THEN
+               sequence_of_statements }
+        [ ELSE
+               sequence_of_statements ]
+          END IF [ *if_*label ] ;
+
+case_statement ::=
+   [ *case_*label : ]
+          CASE expression IS
+               case_statement_alternative
+             { case_statement_alternative }
+          END CASE [ *case_*label ] ;
+
+case_statement_alternative ::=
+     WHEN choices =>
+          sequence_of_statements
+
+loop_statement ::=
+   [ *loop_*label : ]
+        [ iteration_scheme ] LOOP
+               sequence_of_statements
+          END LOOP [ *loop_*label ] ;
+
+iteration_scheme ::=
+     WHILE condition
+   | FOR *loop_*parameter_specification
+
+parameter_specification ::=
+     identifier IN discrete_range
+
+next_statement ::=
+   [ label : ] NEXT [ *loop_*label ] [ WHEN condition ] ;
+
+exit_statement ::=
+   [ label : ] EXIT [ *loop_*label ] [ WHEN condition ] ;
+
+return_statement ::=
+   [ label : ] RETURN [ expression ] ;
+
+null_statement ::=
+   [ label : ] NULL ;
+
+; -----------------------------------------------------------------------------
+; Section 9: Concurrent statements
+; -----------------------------------------------------------------------------
+
+concurrent_statement ::=
+     block_statement
+   | process_statement
+   | concurrent_procedure_call_statement
+   | concurrent_assertion_statement
+   | c oncurrent_signal_assignment_statement
+   | component_instantiation_statement
+   | generate_statement
+
+block_statement ::=
+     *block_*label :
+          BLOCK [ ( *guard_*expression ) ] [ IS ]
+               block_header
+               block_declarative_part
+          BEGIN
+               block_statement_part
+          END BLOCK [ *block_*label ] ;
+
+block_header ::=
+   [ generic_clause
+   [ generic_map_aspect ; ] ]
+   [ port_clause
+   [ port_map_aspect ; ] ]
+
+block_declarative_part ::=
+   { block_declarative_item }
+
+block_statement_part ::=
+   { concurrent_statement }
+
+process_statement ::=
+   [ *process_*label : ]
+        [ POSTPONED ] PROCESS [ ( sensitivity_list ) ] [ IS ]
+               process_declarative_part
+          BEGIN
+               process_statement_part
+          END [ POSTPONED ] PROCESS [ *process_*label ] ;
+
+process_declarative_part ::=
+   { process_declarative_item }
+
+process_declarative_item ::=
+     subprogram_declaration
+   | subprogram_body
+   | type_declaration
+   | subtype_declaration
+   | constant_declaration
+   | variable_declaration
+   | file_declaration
+   | alias_declaration
+   | attribute_declaration
+   | attribute_specification
+   | use_clause
+   | group_type_declaration
+   | group_declaration
+
+process_statement_part ::=
+   { sequential_statement }
+
+concurrent_procedure_call_statement ::=
+   [ label : ] [ POSTPONED ] procedure_call ;
+
+concurrent_assertion_statement ::=
+   [ label : ] [ POSTPONED ] assertion ;
+
+concurrent_signal_assignment_statement ::=
+   [ label : ] [ POSTPONED ] conditional_signal_assignment
+ | [ label : ] [ POSTPONED ] selected_signal_assignment
+
+options ::= [ GUARDED ] [ delay_mechanism ]
+
+conditional_signal_assignment ::=
+     target <= options conditional_waveforms ;
+
+conditional_waveforms ::=
+   { waveform WHEN condition ELSE }
+     waveform [ WHEN condition ]
+
+selected_signal_assignment ::=
+     WITH expression SELECT
+          target <= options selected_waveforms ;
+
+selected_waveforms ::=
+   { waveform WHEN choices , }
+          waveform WHEN choices
+
+component_instantiation_statement ::=
+     *instantiation_*label :
+          instantiated_unit
+             [ generic_map_aspect ]
+             [ port_map_aspect ] ;
+
+instantiated_unit ::=
+   [ COMPONENT ] *component_*name
+   | ENTITY *entity_*name [ ( *architecture_*identifier ) ]
+   | CONFIGURATION *configuration_*name
+
+generate_statement ::=
+     *generate_*label :
+     generation_scheme GENERATE
+      [ { block_declarative_item }
+     BEGIN ]
+        { concurrent_statement }
+     END GENERATE [ *generate_*label ] ;
+
+generation_scheme ::=
+     FOR *generate_*parameter_specification
+   | IF condition
+
+label ::= identifier
+
+; -----------------------------------------------------------------------------
+; Section 10: Scope and visibility
+; -----------------------------------------------------------------------------
+
+use_clause ::=
+     USE selected_name { , selected_name } ;
+
+; -----------------------------------------------------------------------------
+; Section 11: Design units and their analysis
+; -----------------------------------------------------------------------------
+
+design_file ::= design_unit { design_unit }
+
+design_unit ::= context_clause library_unit
+
+library_unit ::=
+     primary_unit
+   | secondary_unit
+
+primary_unit ::=
+     entity_declaration
+   | configuration_declaration
+   | package_declaration
+
+secondary_unit ::=
+     architecture_body
+   | package_body
+
+library_clause ::= LIBRARY logical_name_list ;
+
+logical_name_list ::= logical_name { , logical_name }
+
+logical_name ::= identifier
+
+context_clause ::= { context_item }
+
+context_item ::=
+     library_clause
+   | use_clause
+
+; -----------------------------------------------------------------------------
+; Section 12: Elaboration and execution
+; -----------------------------------------------------------------------------
+
+; -----------------------------------------------------------------------------
+; Section 13: Lexical elements
+; -----------------------------------------------------------------------------
+
+basic_graphic_character ::=
+     upper_case_letter | digit | special_character | space_character
+
+graphic_character ::=
+     basic_graphic_character | lower_case_letter | other_special_character
+
+basic_character ::=
+     basic_graphic_character | format_effector
+
+identifier ::= basic_identifier | extended_identifier
+
+basic_identifier ::=
+     letter { [ underline ] letter_or_digit }
+
+letter_or_digit ::= letter | digit
+
+letter ::= upper_case_letter | lower_case_letter
+
+extended_identifier ::=
+   \ graphic_character { graphic_character } \
+
+abstract_literal ::= decimal_literal | based_literal
+
+decimal_literal ::= integer [ . integer ] [ exponent ]
+
+integer ::= digit { [ underline ] digit }
+
+exponent ::= E [ + ] integer | E - integer
+
+based_literal ::=
+     base # based_integer [ . based_integer ] # [ exponent ]
+
+base ::= integer
+
+based_integer ::=
+     extended_digit { [ underline ] extended_digit }
+
+extended_digit ::= digit | letter
+
+character_literal ::= ' graphic_character '
+
+string_literal ::= " { graphic_character } "
+
+bit_string_literal ::= base_specifier " [ bit_value ] "
+
+bit_value ::= extended_digit { [ underline ] extended_digit }
+
+base_specifier ::= B | O | X
+
+; -----------------------------------------------------------------------------
+; Section 14: Predefined language environment
+; -----------------------------------------------------------------------------
+
+instance_name ::= package_based_path | full_instance_based_path
+
+package_based_path ::=
+     leader *library_*logical_name leader *package_*simple_name leader
+        [ local_item_name ]
+
+full_instance_based_path ::= leader full_path_to_instance [ local_item_name ]
+
+full_path_to_instance ::= { full_path_instance_element leader }
+
+local_item_name ::=
+     simple_name
+     character_literal
+     operator_symbol
+
+full_path_instance_element ::=
+   [ *component_instantiation_*label @ ]
+          *entity_*simple_name ( *architecture_*simple_name )
+   | *block_*label
+   | generate_label
+   | process_label
+   | *loop_*label
+   | *subprogram_*simple_name
+
+generate_label ::= *generate_*label [ ( literal ) ]
+
+process_label ::= [ *process_*label ]
+
+leader ::= :
+
+path_name ::= package_based_path | instance_based_path
+
+instance_based_path ::=
+     leader path_to_instance [ local_item_name ]
+
+path_to_instance ::= { path_instance_element leader }
+
+path_instance_element ::=
+     *component_instantiation_*label
+   | *entity_*simple_name
+   | *block_*label
+   | generate_label
+   | process_label
+   | *subprogram_*simple_name
