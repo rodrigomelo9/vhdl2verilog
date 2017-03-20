@@ -25,7 +25,7 @@ print ("* Bison code:")
 text = re.sub(r"\n ", " ", text)                # Deleting line jumps
 text = re.sub(r"\n{2,}", "\n\n" , text)         # Delete multiple line jumps
 text = re.sub(r" +", " " , text)                # Delete multiple spaces
-text = re.sub(r"\*[a-z_]*\*", "" , text)        # Delete text between *
+text = re.sub(r"\*[a-z_]+\*", "" , text)        # Delete text between *
 text = re.sub(r"([A-Z]{2,})", r"TOK_\1" , text) # Delete text between *
 
 # Add "" to characters which are 'part of the syntax'
@@ -45,6 +45,7 @@ text = re.sub(r" <=", r' "<="' , text)
 text = re.sub(r" >=", r' ">="' , text)
 text = re.sub(r" =>", r' "=>"' , text)
 text = re.sub(r" <>", r' "<>"' , text)
+text = re.sub(r" \*\*", r' "**"' , text)
 text = re.sub(r" :=", r' ":="' , text)
 text = re.sub(r" = ", r' "=" ' , text)
 text = re.sub(r" < ", r' "<" ' , text)
@@ -56,6 +57,7 @@ text = re.sub(r" , ", r' "," ' , text)
 text = re.sub(r" \\ ", r' "\" ' , text)
 text = re.sub(r" @ ", r' "@" ' , text)
 text = re.sub(r" : ", r' ":" ' , text)
+text = re.sub(r" E ", r' "E" ' , text)
 text = re.sub(r" B ", r' "B" ' , text)
 text = re.sub(r" O ", r' "O" ' , text)
 text = re.sub(r" X\n", r' "X"\n' , text)
