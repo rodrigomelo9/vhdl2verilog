@@ -1,9 +1,18 @@
+;
 ; VHDL 93 Syntax in Backus–Naur Form (BNF) notation
 ; From IEEE Std 1076-1993. Ordered as appears in the standard.
 ;
-; UPPERCASE words are used to denote reserved words.
-; If a syntactic category use *xyz_*, is equivalent to the category name
-; without it. Is intended to convey some semantic information.
+; Considerations:
+; * Lowercased words, some containing embedded underlines, are used to denote syntactic categories.
+; * UPPERCASE words are used to denote reserved words.
+; * A vertical bar separates alternative items.
+;   If it occurs immediately after an opening brace, it stands for itself.
+; * Square brackets enclose optional items.
+;   NOTE: initial and terminal square brackets in signatures are part of the syntax.
+; * Braces enclose a repeated item or items. The items may appear zero or more times.
+; * If a syntactic category use *xyz_*, is equivalent to the category name without it.
+;   It is intended to convey some semantic information.
+;
 
 ; -----------------------------------------------------------------------------
 ; Section 1: Design entities and configurations
@@ -501,7 +510,7 @@ binding_indication ::=
    [ port_map_aspect ]
 
 entity_aspect ::=
-     ENTITY *entity_*name [ ( *architecture_*identifier) ]
+     ENTITY *entity_*name [ ( *architecture_*identifier ) ]
    | CONFIGURATION *configuration_*name
    | OPEN
 
