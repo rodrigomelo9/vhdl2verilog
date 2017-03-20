@@ -63,6 +63,6 @@ text = re.sub(r" O ", r' "O" '   , text)
 text = re.sub(r" X\n", r' "X"\n' , text)
 
 text = re.sub(r" \| ", r"\n     | " , text)
-text = re.sub(r"::=", r":" , text)
+text = re.sub(r"::= ", r":\n       " , text)
 
 print (text)
