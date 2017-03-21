@@ -19,16 +19,16 @@
 %%
 
 entity_declaration :
-       RW_ENTITY identifier RW_IS entity_header entity_declarative_part [ RW_BEGIN entity_statement_part ] RW_END [ RW_ENTITY ] [ simple_name ] ";"
+       RW_ENTITY identifier RW_IS entity_header entity_declarative_part [ RW_BEGIN entity_statement_part ] RW_END [ RW_ENTITY ] [ simple_name ] ';'
 
 entity_header :
        [ generic_clause ] [ port_clause ]
 
 generic_clause :
-       RW_GENERIC "(" generic_list ")" ";"
+       RW_GENERIC '(' generic_list ')' ';'
 
 port_clause :
-       RW_PORT "(" port_list ")" ";"
+       RW_PORT '(' port_list ')' ';'
 
 generic_list :
        interface_list
@@ -65,7 +65,7 @@ entity_statement :
      | process_statement
 
 architecture_body :
-       RW_ARCHITECTURE identifier RW_OF name RW_IS architecture_declarative_part RW_BEGIN architecture_statement_part RW_END [RW_ARCHITECTURE] [ simple_name ] ";"
+       RW_ARCHITECTURE identifier RW_OF name RW_IS architecture_declarative_part RW_BEGIN architecture_statement_part RW_END [RW_ARCHITECTURE] [ simple_name ] ';'
 
 architecture_declarative_part :
        { block_declarative_item }
@@ -93,7 +93,7 @@ architecture_statement_part :
        { concurrent_statement }
 
 configuration_declaration :
-       RW_CONFIGURATION identifier RW_OF name RW_IS configuration_declarative_part block_configuration RW_END [ RW_CONFIGURATION ] [ simple_name ] ";"
+       RW_CONFIGURATION identifier RW_OF name RW_IS configuration_declarative_part block_configuration RW_END [ RW_CONFIGURATION ] [ simple_name ] ';'
 
 configuration_declarative_part :
        { configuration_declarative_item }
@@ -104,12 +104,12 @@ configuration_declarative_item :
      | group_declaration
 
 block_configuration :
-       RW_FOR block_specification { use_clause } { configuration_item } RW_END RW_FOR ";"
+       RW_FOR block_specification { use_clause } { configuration_item } RW_END RW_FOR ';'
 
 block_specification :
        name
      | label
-     | label [ "(" index_specification ")" ]
+     | label [ '(' index_specification ')' ]
 
 index_specification :
        discrete_range
@@ -120,15 +120,15 @@ configuration_item :
      | component_configuration
 
 component_configuration :
-       RW_FOR component_specification [ binding_indication ";" ] [ block_configuration ] RW_END RW_FOR ";"
+       RW_FOR component_specification [ binding_indication ';' ] [ block_configuration ] RW_END RW_FOR ';'
 
 subprogram_declaration :
-       subprogram_specification ";"
+       subprogram_specification ';'
 
 subprogram_specification :
-       RW_PROCEDURE designator [ "(" formal_parameter_list ")" ]
+       RW_PROCEDURE designator [ '(' formal_parameter_list ')' ]
      | [ RW_PURE
-     | RW_IMPURE ] RW_FUNCTION designator [ "(" formal_parameter_list ")" ] RW_RETURN type_mark
+     | RW_IMPURE ] RW_FUNCTION designator [ '(' formal_parameter_list ')' ] RW_RETURN type_mark
 
 designator :
        identifier
@@ -141,7 +141,7 @@ formal_parameter_list :
        interface_list
 
 subprogram_body :
-       subprogram_specification RW_IS subprogram_declarative_part RW_BEGIN subprogram_statement_part RW_END [ subprogram_kind ] [ designator ] ";"
+       subprogram_specification RW_IS subprogram_declarative_part RW_BEGIN subprogram_statement_part RW_END [ subprogram_kind ] [ designator ] ';'
 
 subprogram_declarative_part :
        { subprogram_declarative_item }
@@ -169,10 +169,10 @@ subprogram_kind :
      | RW_FUNCTION
 
 signature :
-       "[" [ type_mark { "," type_mark } ] [ RW_RETURN type_mark ] "]"
+       '[' [ type_mark { ',' type_mark } ] [ RW_RETURN type_mark ] ']'
 
 package_declaration :
-       RW_PACKAGE identifier RW_IS package_declarative_part RW_END [ RW_PACKAGE ] [ simple_name ] ";"
+       RW_PACKAGE identifier RW_IS package_declarative_part RW_END [ RW_PACKAGE ] [ simple_name ] ';'
 
 package_declarative_part :
        { package_declarative_item }
@@ -195,7 +195,7 @@ package_declarative_item :
      | group_declaration
 
 package_body :
-       RW_PACKAGE RW_BODY simple_name RW_IS package_body_declarative_part RW_END [ RW_PACKAGE RW_BODY ] [ simple_name ] ";"
+       RW_PACKAGE RW_BODY simple_name RW_IS package_body_declarative_part RW_END [ RW_PACKAGE RW_BODY ] [ simple_name ] ';'
 
 package_body_declarative_part :
        { package_body_declarative_item }
@@ -231,7 +231,7 @@ direction :
      | RW_DOWNTO
 
 enumeration_type_definition :
-       "(" enumeration_literal { "," enumeration_literal } ")"
+       '(' enumeration_literal { ',' enumeration_literal } ')'
 
 enumeration_literal :
        identifier
@@ -247,7 +247,7 @@ primary_unit_declaration :
        identifier
 
 secondary_unit_declaration :
-       identifier "=" physical_literal ";"
+       identifier '=' physical_literal ';'
 
 physical_literal :
        [ abstract_literal ] name
@@ -264,16 +264,16 @@ array_type_definition :
      | constrained_array_definition
 
 unconstrained_array_definition :
-       RW_ARRAY "(" index_subtype_definition { "," index_subtype_definition } ")" RW_OF subtype_indication
+       RW_ARRAY '(' index_subtype_definition { ',' index_subtype_definition } ')' RW_OF subtype_indication
 
 constrained_array_definition :
        RW_ARRAY index_constraint RW_OF subtype_indication
 
 index_subtype_definition :
-       type_mark RW_RANGE "<>"
+       type_mark RW_RANGE '<>'
 
 index_constraint :
-       "(" discrete_range { "," discrete_range } ")"
+       '(' discrete_range { ',' discrete_range } ')'
 
 discrete_range :
        subtype_indication
@@ -283,10 +283,10 @@ record_type_definition :
        RW_RECORD element_declaration { element_declaration } RW_END RW_RECORD [ simple_name ]
 
 element_declaration :
-       identifier_list ":" element_subtype_definition ";"
+       identifier_list ':' element_subtype_definition ';'
 
 identifier_list :
-       identifier { "," identifier }
+       identifier { ',' identifier }
 
 element_subtype_definition :
        subtype_indication
@@ -295,7 +295,7 @@ access_type_definition :
        RW_ACCESS subtype_indication
 
 incomplete_type_declaration :
-       RW_TYPE identifier ";"
+       RW_TYPE identifier ';'
 
 file_type_definition :
        RW_FILE RW_OF type_mark
@@ -320,7 +320,7 @@ type_declaration :
      | incomplete_type_declaration
 
 full_type_declaration :
-       RW_TYPE identifier RW_IS type_definition ";"
+       RW_TYPE identifier RW_IS type_definition ';'
 
 type_definition :
        scalar_type_definition
@@ -329,7 +329,7 @@ type_definition :
      | file_type_definition
 
 subtype_declaration :
-       RW_SUBTYPE identifier RW_IS subtype_indication ";"
+       RW_SUBTYPE identifier RW_IS subtype_indication ';'
 
 subtype_indication :
        [ name ] type_mark [ constraint ]
@@ -349,20 +349,20 @@ object_declaration :
      | file_declaration
 
 constant_declaration :
-       RW_CONSTANT identifier_list ":" subtype_indication [ ":=" expression ] ";"
+       RW_CONSTANT identifier_list ':' subtype_indication [ ':=' expression ] ';'
 
 signal_declaration :
-       RW_SIGNAL identifier_list ":" subtype_indication [ signal_kind ] [ ":=" expression ] ";"
+       RW_SIGNAL identifier_list ':' subtype_indication [ signal_kind ] [ ':=' expression ] ';'
 
 signal_kind :
        RW_REGISTER
      | RW_BUS
 
 variable_declaration :
-       [ RW_SHARED ] RW_VARIABLE identifier_list ":" subtype_indication [ ":=" expression ] ";"
+       [ RW_SHARED ] RW_VARIABLE identifier_list ':' subtype_indication [ ':=' expression ] ';'
 
 file_declaration :
-       RW_FILE identifier_list ":" subtype_indication [ file_open_information ] ";"
+       RW_FILE identifier_list ':' subtype_indication [ file_open_information ] ';'
 
 file_open_information :
        [ RW_OPEN kind_expression ] RW_IS file_logical_name
@@ -377,13 +377,13 @@ interface_declaration :
      | interface_file_declaration
 
 interface_constant_declaration :
-       [RW_CONSTANT] identifier_list ":" [ RW_IN ] subtype_indication [ ":=" expression ]
+       [RW_CONSTANT] identifier_list ':' [ RW_IN ] subtype_indication [ ':=' expression ]
 
 interface_signal_declaration :
-       [RW_SIGNAL] identifier_list ":" [ mode ] subtype_indication [ RW_BUS ] [ ":=" expression ]
+       [RW_SIGNAL] identifier_list ':' [ mode ] subtype_indication [ RW_BUS ] [ ':=' expression ]
 
 interface_variable_declaration :
-       [RW_VARIABLE] identifier_list ":" [ mode ] subtype_indication [ ":=" expression ]
+       [RW_VARIABLE] identifier_list ':' [ mode ] subtype_indication [ ':=' expression ]
 
 interface_file_declaration :
        RW_FILE identifier_list subtype_indication
@@ -396,21 +396,21 @@ mode :
      | RW_LINKAGE
 
 interface_list :
-       interface_element { ";" interface_element }
+       interface_element { ';' interface_element }
 
 interface_element :
        interface_declaration
 
 association_list :
-       association_element { "," association_element }
+       association_element { ',' association_element }
 
 association_element :
-       [ formal_part "=>" ] actual_part
+       [ formal_part '=>' ] actual_part
 
 formal_part :
        formal_designator
-     | name "(" formal_designator ")"
-     | type_mark "(" formal_designator ")"
+     | name '(' formal_designator ')'
+     | type_mark '(' formal_designator ')'
 
 formal_designator :
        name
@@ -419,8 +419,8 @@ formal_designator :
 
 actual_part :
        actual_designator
-     | name "(" actual_designator ")"
-     | type_mark "(" actual_designator ")"
+     | name '(' actual_designator ')'
+     | type_mark '(' actual_designator ')'
 
 actual_designator :
        expression
@@ -430,7 +430,7 @@ actual_designator :
      | RW_OPEN
 
 alias_declaration :
-       RW_ALIAS alias_designator [ ":" subtype_indication ] RW_IS name [ signature ] ";"
+       RW_ALIAS alias_designator [ ':' subtype_indication ] RW_IS name [ signature ] ';'
 
 alias_designator :
        identifier
@@ -438,35 +438,35 @@ alias_designator :
      | operator_symbol
 
 attribute_declaration :
-       RW_ATTRIBUTE identifier: type_mark ";"
+       RW_ATTRIBUTE identifier: type_mark ';'
 
 component_declaration :
-       RW_COMPONENT identifier [ RW_IS ] [ generic_clause ] [ port_clause ] RW_END RW_COMPONENT [ simple_name ] ";"
+       RW_COMPONENT identifier [ RW_IS ] [ generic_clause ] [ port_clause ] RW_END RW_COMPONENT [ simple_name ] ';'
 
 group_template_declaration :
-       RW_GROUP identifier RW_IS "(" entity_class_entry_list ")" ";"
+       RW_GROUP identifier RW_IS '(' entity_class_entry_list ')' ';'
 
 entity_class_entry_list :
-       entity_class_entry { "," entity_class_entry }
+       entity_class_entry { ',' entity_class_entry }
 
 entity_class_entry :
-       entity_class [ "<>" ]
+       entity_class [ '<>' ]
 
 group_declaration :
-       RW_GROUP identifier ":" name "(" group_constituent_list ")" ";"
+       RW_GROUP identifier ':' name '(' group_constituent_list ')' ';'
 
 group_constituent_list :
-       group_constituent { "," group_constituent }
+       group_constituent { ',' group_constituent }
 
 group_constituent :
        name
      | character_literal
 
 attribute_specification :
-       RW_ATTRIBUTE attribute_designator RW_OF entity_specification RW_IS expression ";"
+       RW_ATTRIBUTE attribute_designator RW_OF entity_specification RW_IS expression ';'
 
 entity_specification :
-       entity_name_list ":" entity_class
+       entity_name_list ':' entity_class
 
 entity_class :
        RW_ENTITY
@@ -488,7 +488,7 @@ entity_class :
      | RW_FILE
 
 entity_name_list :
-       entity_designator { "," entity_designator }
+       entity_designator { ',' entity_designator }
      | RW_OTHERS
      | RW_ALL
 
@@ -501,13 +501,13 @@ entity_tag :
      | operator_symbol
 
 configuration_specification :
-       RW_FOR component_specification binding_indication ";"
+       RW_FOR component_specification binding_indication ';'
 
 component_specification :
-       instantiation_list ":" name
+       instantiation_list ':' name
 
 instantiation_list :
-       label { "," label }
+       label { ',' label }
      | RW_OTHERS
      | RW_ALL
 
@@ -515,24 +515,24 @@ binding_indication :
        [ RW_USE entity_aspect ] [ generic_map_aspect ] [ port_map_aspect ]
 
 entity_aspect :
-       RW_ENTITY name [ "(" identifier ")" ]
+       RW_ENTITY name [ '(' identifier ')' ]
      | RW_CONFIGURATION name
      | RW_OPEN
 
 generic_map_aspect :
-       RW_GENERIC RW_MAP "(" association_list ")"
+       RW_GENERIC RW_MAP '(' association_list ')'
 
 port_map_aspect :
-       RW_PORT RW_MAP "(" association_list ")"
+       RW_PORT RW_MAP '(' association_list ')'
 
 disconnection_specification :
-       RW_DISCONNECT guarded_signal_specification RW_AFTER expression ";"
+       RW_DISCONNECT guarded_signal_specification RW_AFTER expression ';'
 
 guarded_signal_specification :
-       signal_list ":" type_mark
+       signal_list ':' type_mark
 
 signal_list :
-       name { "," name }
+       name { ',' name }
      | RW_OTHERS
      | RW_ALL
 
@@ -552,7 +552,7 @@ simple_name :
        identifier
 
 selected_name :
-       prefix "." suffix
+       prefix '.' suffix
 
 suffix :
        simple_name
@@ -561,13 +561,13 @@ suffix :
      | RW_ALL
 
 indexed_name :
-       prefix "(" expression { "," expression } ")"
+       prefix '(' expression { ',' expression } ')'
 
 slice_name :
-       prefix "(" discrete_range ")"
+       prefix '(' discrete_range ')'
 
 attribute_name :
-       prefix [ signature ] ' attribute_designator [ "(" expression ")" ]
+       prefix [ signature ] '\'' attribute_designator [ '(' expression ')' ]
 
 attribute_designator :
        simple_name
@@ -593,7 +593,7 @@ term :
        factor { multiplying_operator factor }
 
 factor :
-       primary [ "**" primary ]
+       primary [ '**' primary ]
      | RW_ABS primary
      | RW_NOT primary
 
@@ -605,7 +605,7 @@ primary :
      | qualified_expression
      | type_conversion
      | allocator
-     | "(" expression ")"
+     | '(' expression ')'
 
 logical_operator :
        RW_AND
@@ -616,12 +616,12 @@ logical_operator :
      | RW_XNOR
 
 relational_operator :
-       "="
-     | "/="
-     | "<"
-     | "<="
-     | ">"
-     | ">="
+       '='
+     | '/='
+     | '<'
+     | '<='
+     | '>'
+     | '>='
 
 shift_operator :
        RW_SLL
@@ -632,22 +632,22 @@ shift_operator :
      | RW_ROR
 
 adding_operator :
-       "+"
-     | "-"
-     | "&"
+       '+'
+     | '-'
+     | '&'
 
 sign :
-       "+"
-     | -
+       '+'
+     | '-'
 
 multiplying_operator :
-       "*"
-     | "/"
+       '*'
+     | '/'
      | RW_MOD
      | RW_REM
 
 miscellaneous_operator :
-       "**"
+       '**'
      | RW_ABS
      | RW_NOT
 
@@ -663,10 +663,10 @@ numeric_literal :
      | physical_literal
 
 aggregate :
-       "(" element_association { "," element_association } ")"
+       '(' element_association { ',' element_association } ')'
 
 element_association :
-       [ choices "=>" ] expression
+       [ choices '=>' ] expression
 
 choices :
        choice {
@@ -679,17 +679,17 @@ choice :
      | RW_OTHERS
 
 function_call :
-       name [ "(" actual_parameter_part ")" ]
+       name [ '(' actual_parameter_part ')' ]
 
 actual_parameter_part :
        association_list
 
 qualified_expression :
-       type_mark ' "(" expression ")"
-     | type_mark ' aggregate
+       type_mark '\'' '(' expression ')'
+     | type_mark '\'' aggregate
 
 type_conversion :
-       type_mark "(" expression ")"
+       type_mark '(' expression ')'
 
 allocator :
        RW_NEW subtype_indication
@@ -714,13 +714,13 @@ sequential_statement :
      | null_statement
 
 wait_statement :
-       [ label ":" ] RW_WAIT [ sensitivity_clause ] [ condition_clause ] [ timeout_clause ] ";"
+       [ label ':' ] RW_WAIT [ sensitivity_clause ] [ condition_clause ] [ timeout_clause ] ';'
 
 sensitivity_clause :
        RW_ON sensitivity_list
 
 sensitivity_list :
-       name { "," name }
+       name { ',' name }
 
 condition_clause :
        RW_UNTIL condition
@@ -732,16 +732,16 @@ timeout_clause :
        RW_FOR expression
 
 assertion_statement :
-       [ label ":" ] assertion ";"
+       [ label ':' ] assertion ';'
 
 assertion :
        RW_ASSERT condition [ RW_REPORT expression ] [ RW_SEVERITY expression ]
 
 report_statement :
-       [ label ":" ] RW_REPORT expression [ RW_SEVERITY expression ] ";"
+       [ label ':' ] RW_REPORT expression [ RW_SEVERITY expression ] ';'
 
 signal_assignment_statement :
-       [ label ":" ] target "<=" [ delay_mechanism ] waveform ";"
+       [ label ':' ] target '<=' [ delay_mechanism ] waveform ';'
 
 delay_mechanism :
        RW_TRANSPORT
@@ -752,7 +752,7 @@ target :
      | aggregate
 
 waveform :
-       waveform_element { "," waveform_element }
+       waveform_element { ',' waveform_element }
      | RW_UNAFFECTED
 
 waveform_element :
@@ -760,25 +760,25 @@ waveform_element :
      | RW_NULL [ RW_AFTER expression ]
 
 variable_assignment_statement :
-       [ label ":" ] target ":=" expression ";"
+       [ label ':' ] target ':=' expression ';'
 
 procedure_call_statement :
-       [ label ":" ] procedure_call ";"
+       [ label ':' ] procedure_call ';'
 
 procedure_call :
-       name [ "(" actual_parameter_part ")" ]
+       name [ '(' actual_parameter_part ')' ]
 
 if_statement :
-       [ label ":" ] RW_IF condition RW_THEN sequence_of_statements { RW_ELSIF condition RW_THEN sequence_of_statements } [ RW_ELSE sequence_of_statements ] RW_END RW_IF [ label ] ";"
+       [ label ':' ] RW_IF condition RW_THEN sequence_of_statements { RW_ELSIF condition RW_THEN sequence_of_statements } [ RW_ELSE sequence_of_statements ] RW_END RW_IF [ label ] ';'
 
 case_statement :
-       [ label ":" ] RW_CASE expression RW_IS case_statement_alternative { case_statement_alternative } RW_END RW_CASE [ label ] ";"
+       [ label ':' ] RW_CASE expression RW_IS case_statement_alternative { case_statement_alternative } RW_END RW_CASE [ label ] ';'
 
 case_statement_alternative :
-       RW_WHEN choices "=>" sequence_of_statements
+       RW_WHEN choices '=>' sequence_of_statements
 
 loop_statement :
-       [ label ":" ] [ iteration_scheme ] RW_LOOP sequence_of_statements RW_END RW_LOOP [ label ] ";"
+       [ label ':' ] [ iteration_scheme ] RW_LOOP sequence_of_statements RW_END RW_LOOP [ label ] ';'
 
 iteration_scheme :
        RW_WHILE condition
@@ -788,16 +788,16 @@ parameter_specification :
        identifier RW_IN discrete_range
 
 next_statement :
-       [ label ":" ] RW_NEXT [ label ] [ RW_WHEN condition ] ";"
+       [ label ':' ] RW_NEXT [ label ] [ RW_WHEN condition ] ';'
 
 exit_statement :
-       [ label ":" ] RW_EXIT [ label ] [ RW_WHEN condition ] ";"
+       [ label ':' ] RW_EXIT [ label ] [ RW_WHEN condition ] ';'
 
 return_statement :
-       [ label ":" ] RW_RETURN [ expression ] ";"
+       [ label ':' ] RW_RETURN [ expression ] ';'
 
 null_statement :
-       [ label ":" ] RW_NULL ";"
+       [ label ':' ] RW_NULL ';'
 
 concurrent_statement :
        block_statement
@@ -809,10 +809,10 @@ concurrent_statement :
      | generate_statement
 
 block_statement :
-       label ":" RW_BLOCK [ "(" expression ")" ] [ RW_IS ] block_header block_declarative_part RW_BEGIN block_statement_part RW_END RW_BLOCK [ label ] ";"
+       label ':' RW_BLOCK [ '(' expression ')' ] [ RW_IS ] block_header block_declarative_part RW_BEGIN block_statement_part RW_END RW_BLOCK [ label ] ';'
 
 block_header :
-       [ generic_clause [ generic_map_aspect ";" ] ] [ port_clause [ port_map_aspect ";" ] ]
+       [ generic_clause [ generic_map_aspect ';' ] ] [ port_clause [ port_map_aspect ';' ] ]
 
 block_declarative_part :
        { block_declarative_item }
@@ -821,7 +821,7 @@ block_statement_part :
        { concurrent_statement }
 
 process_statement :
-       [ label ":" ] [ RW_POSTPONED ] RW_PROCESS [ "(" sensitivity_list ")" ] [ RW_IS ] process_declarative_part RW_BEGIN process_statement_part RW_END [ RW_POSTPONED ] RW_PROCESS [ label ] ";"
+       [ label ':' ] [ RW_POSTPONED ] RW_PROCESS [ '(' sensitivity_list ')' ] [ RW_IS ] process_declarative_part RW_BEGIN process_statement_part RW_END [ RW_POSTPONED ] RW_PROCESS [ label ] ';'
 
 process_declarative_part :
        { process_declarative_item }
@@ -845,40 +845,40 @@ process_statement_part :
        { sequential_statement }
 
 concurrent_procedure_call_statement :
-       [ label ":" ] [ RW_POSTPONED ] procedure_call ";"
+       [ label ':' ] [ RW_POSTPONED ] procedure_call ';'
 
 concurrent_assertion_statement :
-       [ label ":" ] [ RW_POSTPONED ] assertion ";"
+       [ label ':' ] [ RW_POSTPONED ] assertion ';'
 
 concurrent_signal_assignment_statement :
-       [ label ":" ] [ RW_POSTPONED ] conditional_signal_assignment
-     | [ label ":" ] [ RW_POSTPONED ] selected_signal_assignment
+       [ label ':' ] [ RW_POSTPONED ] conditional_signal_assignment
+     | [ label ':' ] [ RW_POSTPONED ] selected_signal_assignment
 
 options :
        [ RW_GUARDED ] [ delay_mechanism ]
 
 conditional_signal_assignment :
-       target "<=" options conditional_waveforms ";"
+       target '<=' options conditional_waveforms ';'
 
 conditional_waveforms :
        { waveform RW_WHEN condition RW_ELSE } waveform [ RW_WHEN condition ]
 
 selected_signal_assignment :
-       RW_WITH expression RW_SELECT target "<=" options selected_waveforms ";"
+       RW_WITH expression RW_SELECT target '<=' options selected_waveforms ';'
 
 selected_waveforms :
-       { waveform RW_WHEN choices "," } waveform RW_WHEN choices
+       { waveform RW_WHEN choices ',' } waveform RW_WHEN choices
 
 component_instantiation_statement :
-       label ":" instantiated_unit [ generic_map_aspect ] [ port_map_aspect ] ";"
+       label ':' instantiated_unit [ generic_map_aspect ] [ port_map_aspect ] ';'
 
 instantiated_unit :
        [ RW_COMPONENT ] name
-     | RW_ENTITY name [ "(" identifier ")" ]
+     | RW_ENTITY name [ '(' identifier ')' ]
      | RW_CONFIGURATION name
 
 generate_statement :
-       label ":" generation_scheme RW_GENERATE [ { block_declarative_item } RW_BEGIN ] { concurrent_statement } RW_END RW_GENERATE [ label ] ";"
+       label ':' generation_scheme RW_GENERATE [ { block_declarative_item } RW_BEGIN ] { concurrent_statement } RW_END RW_GENERATE [ label ] ';'
 
 generation_scheme :
        RW_FOR parameter_specification
@@ -888,7 +888,7 @@ label :
        identifier
 
 use_clause :
-       RW_USE selected_name { "," selected_name } ";"
+       RW_USE selected_name { ',' selected_name } ';'
 
 design_file :
        design_unit { design_unit }
@@ -910,10 +910,10 @@ secondary_unit :
      | package_body
 
 library_clause :
-       RW_LIBRARY logical_name_list ";"
+       RW_LIBRARY logical_name_list ';'
 
 logical_name_list :
-       logical_name { "," logical_name }
+       logical_name { ',' logical_name }
 
 logical_name :
        identifier
@@ -956,24 +956,24 @@ letter :
      | lower_case_letter
 
 extended_identifier :
-       "\" graphic_character { graphic_character } \
+       '\' graphic_character { graphic_character } '\'
 
 abstract_literal :
        decimal_literal
      | based_literal
 
 decimal_literal :
-       integer [ "." integer ] [ exponent ]
+       integer [ '.' integer ] [ exponent ]
 
 integer :
        digit { [ underline ] digit }
 
 exponent :
-       "E" [ "+" ] integer
-     | "E" "-" integer
+       'E' [ '+' ] integer
+     | 'E' '-' integer
 
 based_literal :
-       base "#" based_integer [ "." based_integer ] "#" [ exponent ]
+       base '#' based_integer [ '.' based_integer ] '#' [ exponent ]
 
 base :
        integer
@@ -986,21 +986,21 @@ extended_digit :
      | letter
 
 character_literal :
-       ' graphic_character '
+       '\'' graphic_character '
 
 string_literal :
-       " { graphic_character } "
+       '"' { graphic_character } '"'
 
 bit_string_literal :
-       base_specifier " [ bit_value ] "
+       base_specifier '"' [ bit_value ] '"'
 
 bit_value :
        extended_digit { [ underline ] extended_digit }
 
 base_specifier :
-       "B"
-     | "O"
-     | "X"
+       'B'
+     | 'O'
+     | 'X'
 
 instance_name :
        package_based_path
@@ -1019,7 +1019,7 @@ local_item_name :
        simple_name character_literal operator_symbol
 
 full_path_instance_element :
-       [ label "@" ] simple_name "(" simple_name ")"
+       [ label '@' ] simple_name '(' simple_name ')'
      | label
      | generate_label
      | process_label
@@ -1027,13 +1027,13 @@ full_path_instance_element :
      | simple_name
 
 generate_label :
-       label [ "(" literal ")" ]
+       label [ '(' literal ')' ]
 
 process_label :
        [ label ]
 
 leader :
-       ":"
+       ':'
 
 path_name :
        package_based_path

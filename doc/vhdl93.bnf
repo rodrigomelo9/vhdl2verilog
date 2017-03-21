@@ -1,5 +1,5 @@
 ;
-; VHDL 93 Syntax in Backus–Naur Form (BNF) notation
+; VHDL 93 Syntax in a simple variant of Backus–Naur Form (BNF) notation
 ; From IEEE Std 1076-1993. Ordered as appears in the standard.
 ;
 ; Considerations:
