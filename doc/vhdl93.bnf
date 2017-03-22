@@ -10,7 +10,7 @@
 ; * Square brackets enclose optional items.
 ;   NOTE: initial and terminal square brackets in signatures are part of the syntax.
 ; * Braces enclose a repeated item or items. The items may appear zero or more times.
-; * If a syntactic category use *xyz_*, is equivalent to the category name without it.
+; * If a syntactic category use __xyz__, is equivalent to the category name without it.
 ;   It is intended to convey some semantic information.
 ;
 
@@ -24,11 +24,11 @@ entity_declaration ::=
           entity_declarative_part
    [ BEGIN
           entity_statement_part ]
-     END [ ENTITY ] [ *entity_*simple_name ] ;
+     END [ ENTITY ] [ __entity__simple_name ] ;
 
 entity_header ::=
-   [ *formal_*generic_clause ]
-   [ *formal_*port_clause ]
+   [ __formal__generic_clause ]
+   [ __formal__port_clause ]
 
 generic_clause ::=
      GENERIC ( generic_list ) ;
@@ -36,9 +36,9 @@ generic_clause ::=
 port_clause ::=
      PORT ( port_list ) ;
 
-generic_list ::= *generic_*interface_list
+generic_list ::= __generic__interface_list
 
-port_list ::= *port_*interface_list
+port_list ::= __port__interface_list
 
 entity_declarative_part ::=
    { entity_declarative_item }
@@ -50,7 +50,7 @@ entity_declarative_item ::=
    | subtype_declaration
    | constant_declaration
    | signal_declaration
-   | *shared_*variable_declaration
+   | __shared__variable_declaration
    | file_declaration
    | alias_declaration
    | attribute_declaration
@@ -65,15 +65,15 @@ entity_statement_part ::=
 
 entity_statement ::=
      concurrent_assertion_statement
-   | *passive_*concurrent_procedure_call
-   | *passive_*process_statement
+   | __passive__concurrent_procedure_call
+   | __passive__process_statement
 
 architecture_body ::=
-     ARCHITECTURE identifier OF *entity_*name IS
+     ARCHITECTURE identifier OF __entity__name IS
          architecture_declarative_part
      BEGIN
          architecture_statement_part
-     END [ARCHITECTURE] [ *architecture_*simple_name ] ;
+     END [ARCHITECTURE] [ __architecture__simple_name ] ;
 
 architecture_declarative_part ::=
    { block_declarative_item }
@@ -85,7 +85,7 @@ block_declarative_item ::=
    | subtype_declaration
    | constant_declaration
    | signal_declaration
-   | *shared_*variable_declaration
+   | __shared__variable_declaration
    | file_declaration
    | alias_declaration
    | component_declaration
@@ -101,10 +101,10 @@ architecture_statement_part ::=
    { concurrent_statement }
 
 configuration_declaration ::=
-     CONFIGURATION identifier OF *entity_*name IS
+     CONFIGURATION identifier OF __entity__name IS
           configuration_declarative_part
           block_configuration
-     END [ CONFIGURATION ] [ *configuration_*simple_name ] ;
+     END [ CONFIGURATION ] [ __configuration__simple_name ] ;
 
 configuration_declarative_part ::=
    { configuration_declarative_item }
@@ -121,13 +121,13 @@ block_configuration ::=
      END FOR ;
 
 block_specification ::=
-     *architecture_*name
-   | *block_statement_*label
-   | *generate_statement_*label [ ( index_specification ) ]
+     __architecture__name
+   | __block_statement__label
+   | __generate_statement__label [ ( index_specification ) ]
 
 index_specification ::=
      discrete_range
-   | *static_*expression
+   | __static__expression
 
 configuration_item ::=
      block_configuration
@@ -155,7 +155,7 @@ designator ::= identifier | operator_symbol
 
 operator_symbol ::= string_literal
 
-formal_parameter_list ::= *parameter_*interface_list
+formal_parameter_list ::= __parameter__interface_list
 
 subprogram_body ::=
      subprogram_specification IS
@@ -192,7 +192,7 @@ signature ::= [ [ type_mark { , type_mark } ] [ RETURN type_mark ] ]
 package_declaration ::=
      PACKAGE identifier IS
          package_declarative_part
-     END [ PACKAGE ] [ *package_*simple_name ] ;
+     END [ PACKAGE ] [ __package__simple_name ] ;
 
 package_declarative_part ::=
    { package_declarative_item }
@@ -203,7 +203,7 @@ package_declarative_item ::=
    | subtype_declaration
    | constant_declaration
    | signal_declaration
-   | *shared_*variable_declaration
+   | __shared__variable_declaration
    | file_declaration
    | alias_declaration
    | component_declaration
@@ -215,9 +215,9 @@ package_declarative_item ::=
    | group_declaration
 
 package_body ::=
-     PACKAGE BODY *package_*simple_name IS
+     PACKAGE BODY __package__simple_name IS
           package_body_declarative_part
-     END [ PACKAGE BODY ] [ *package_*simple_name ] ;
+     END [ PACKAGE BODY ] [ __package__simple_name ] ;
 
 package_body_declarative_part ::=
    { package_body_declarative_item }
@@ -228,7 +228,7 @@ package_body_declarative_item ::=
    | type_declaration
    | subtype_declaration
    | constant_declaration
-   | *shared_*variable_declaration
+   | __shared__variable_declaration
    | file_declaration
    | alias_declaration
    | use_clause
@@ -248,7 +248,7 @@ scalar_type_definition ::=
 range_constraint ::= RANGE range
 
 range ::=
-     *range_*attribute_name
+     __range__attribute_name
    | simple_expression direction simple_expression
 
 direction ::= TO | DOWNTO
@@ -265,13 +265,13 @@ physical_type_definition ::=
           UNITS
                primary_unit_declaration
              { secondary_unit_declaration }
-          END UNITS [ *physical_type_*simple_name ]
+          END UNITS [ __physical_type__simple_name ]
 
 primary_unit_declaration ::= identifier
 
 secondary_unit_declaration ::= identifier = physical_literal ;
 
-physical_literal ::= [ abstract_literal ] *unit_*name
+physical_literal ::= [ abstract_literal ] __unit__name
 
 floating_type_definition ::= range_constraint
 
@@ -284,22 +284,22 @@ array_type_definition ::=
 
 unconstrained_array_definition ::=
      ARRAY ( index_subtype_definition { , index_subtype_definition } )
-          OF *element_*subtype_indication
+          OF __element__subtype_indication
 
 constrained_array_definition ::=
-     ARRAY index_constraint OF *element_*subtype_indication
+     ARRAY index_constraint OF __element__subtype_indication
 
 index_subtype_definition ::= type_mark RANGE <>
 
 index_constraint ::= ( discrete_range { , discrete_range } )
 
-discrete_range ::= *discrete_*subtype_indication | range
+discrete_range ::= __discrete__subtype_indication | range
 
 record_type_definition ::=
      RECORD
           element_declaration
         { element_declaration }
-     END RECORD [ *record_type_*simple_name ]
+     END RECORD [ __record_type__simple_name ]
 
 element_declaration ::=
      identifier_list : element_subtype_definition ;
@@ -350,11 +350,11 @@ subtype_declaration ::=
      SUBTYPE identifier IS subtype_indication ;
 
 subtype_indication ::=
-   [ *resolution_function_*name ] type_mark [ constraint ]
+   [ __resolution_function__name ] type_mark [ constraint ]
 
 type_mark ::=
-     *type_*name
-   | *subtype_*name
+     __type__name
+   | __subtype__name
 
 constraint ::=
      range_constraint
@@ -380,9 +380,9 @@ variable_declaration ::=
 file_declaration ::=
      FILE identifier_list : subtype_indication [ file_open_information ] ;
 
-file_open_information ::= [ OPEN *file_open_*kind_expression ] IS file_logical_name
+file_open_information ::= [ OPEN __file_open__kind_expression ] IS file_logical_name
 
-file_logical_name ::= *string_*expression
+file_logical_name ::= __string__expression
 
 interface_declaration ::=
      interface_constant_declaration
@@ -391,13 +391,13 @@ interface_declaration ::=
    | interface_file_declaration
 
 interface_constant_declaration ::=
-     [CONSTANT] identifier_list : [ IN ] subtype_indication [ := *static_*expression ]
+     [CONSTANT] identifier_list : [ IN ] subtype_indication [ := __static__expression ]
 
 interface_signal_declaration ::=
-     [SIGNAL] identifier_list : [ mode ] subtype_indication [ BUS ] [ := *static_*expression ]
+     [SIGNAL] identifier_list : [ mode ] subtype_indication [ BUS ] [ := __static__expression ]
 
 interface_variable_declaration ::=
-     [VARIABLE] identifier_list : [ mode ] subtype_indication [ := *static_*expression ]
+     [VARIABLE] identifier_list : [ mode ] subtype_indication [ := __static__expression ]
 
 interface_file_declaration ::=
      FILE identifier_list subtype_indication
@@ -417,24 +417,24 @@ association_element ::=
 
 formal_part ::=
      formal_designator
-   | *function_*name ( formal_designator )
+   | __function__name ( formal_designator )
    | type_mark ( formal_designator )
 
 formal_designator ::=
-     *generic_*name
-   | *port_*name
-   | *parameter_*name
+     __generic__name
+   | __port__name
+   | __parameter__name
 
 actual_part ::=
      actual_designator
-   | *function_*name ( actual_designator )
+   | __function__name ( actual_designator )
    | type_mark ( actual_designator )
 
 actual_designator ::=
      expression
-   | *signal_*name
-   | *variable_*name
-   | *file_*name
+   | __signal__name
+   | __variable__name
+   | __file__name
    | OPEN
 
 alias_declaration ::=
@@ -443,13 +443,13 @@ alias_declaration ::=
 alias_designator ::= identifier | character_literal | operator_symbol
 
 attribute_declaration ::=
-     ATTRIBUTE identifier: type_mark ;
+     ATTRIBUTE identifier : type_mark ;
 
 component_declaration ::=
      COMPONENT identifier [ IS ]
-        [ *local_*generic_clause ]
-        [ *local_*port_clause ]
-     END COMPONENT [ *component_*simple_name ] ;
+        [ __local__generic_clause ]
+        [ __local__port_clause ]
+     END COMPONENT [ __component__simple_name ] ;
 
 group_template_declaration ::=
      GROUP identifier IS ( entity_class_entry_list ) ;
@@ -460,7 +460,7 @@ entity_class_entry_list ::=
 entity_class_entry ::= entity_class [ <> ]
 
 group_declaration ::=
-     GROUP identifier : *group_template_*name ( group_constituent_list ) ;
+     GROUP identifier : __group_template__name ( group_constituent_list ) ;
 
 group_constituent_list ::= group_constituent { , group_constituent }
 
@@ -497,10 +497,10 @@ configuration_specification ::=
      FOR component_specification binding_indication ;
 
 component_specification ::=
-     instantiation_list : *component_*name
+     instantiation_list : __component__name
 
 instantiation_list ::=
-     *instantiation_*label { , *instantiation_*label }
+     __instantiation__label { , __instantiation__label }
    | OTHERS
    | ALL
 
@@ -510,24 +510,24 @@ binding_indication ::=
    [ port_map_aspect ]
 
 entity_aspect ::=
-     ENTITY *entity_*name [ ( *architecture_*identifier ) ]
-   | CONFIGURATION *configuration_*name
+     ENTITY __entity__name [ ( __architecture__identifier ) ]
+   | CONFIGURATION __configuration__name
    | OPEN
 
 generic_map_aspect ::=
-     GENERIC MAP ( *generic_*association_list )
+     GENERIC MAP ( __generic__association_list )
 
 port_map_aspect ::=
-     PORT MAP ( *port_*association_list )
+     PORT MAP ( __port__association_list )
 
 disconnection_specification ::=
-     DISCONNECT guarded_signal_specification AFTER *time_*expression ;
+     DISCONNECT guarded_signal_specification AFTER __time__expression ;
 
 guarded_signal_specification ::=
-     *guarded_*signal_list : type_mark
+     __guarded__signal_list : type_mark
 
 signal_list ::=
-     *signal_*name { , *signal_*name }
+     __signal__name { , __signal__name }
    | OTHERS
    | ALL
 
@@ -564,7 +564,7 @@ slice_name ::= prefix ( discrete_range )
 attribute_name ::=
      prefix [ signature ] ' attribute_designator [ ( expression ) ]
 
-attribute_designator ::= *attribute_*simple_name
+attribute_designator ::= __attribute__simple_name
 
 ; -----------------------------------------------------------------------------
 ; Section 7: Expressions
@@ -641,13 +641,13 @@ choices ::= choice { | choice }
 choice ::=
      simple_expression
    | discrete_range
-   | *element_*simple_name
+   | __element__simple_name
    | OTHERS
 
 function_call ::=
-     *function_*name [ ( actual_parameter_part ) ]
+     __function__name [ ( actual_parameter_part ) ]
 
-actual_parameter_part ::= *parameter_*association_list
+actual_parameter_part ::= __parameter__association_list
 
 qualified_expression ::=
      type_mark ' ( expression )
@@ -686,13 +686,13 @@ wait_statement ::=
 
 sensitivity_clause ::= ON sensitivity_list
 
-sensitivity_list ::= *signal_*name { , *signal_*name }
+sensitivity_list ::= __signal__name { , __signal__name }
 
 condition_clause ::= UNTIL condition
 
-condition ::= *boolean_*expression
+condition ::= __boolean__expression
 
-timeout_clause ::= FOR *time_*expression
+timeout_clause ::= FOR __time__expression
 
 assertion_statement ::= [ label : ] assertion ;
 
@@ -711,7 +711,7 @@ signal_assignment_statement ::=
 
 delay_mechanism ::=
      TRANSPORT
- | [ REJECT *time_*expression ] INERTIAL
+ | [ REJECT __time__expression ] INERTIAL
 
 target ::=
      name
@@ -722,55 +722,55 @@ waveform ::=
    | UNAFFECTED
 
 waveform_element ::=
-     *value_*expression [ AFTER *time_*expression ]
-   | NULL [ AFTER *time_*expression ]
+     __value__expression [ AFTER __time__expression ]
+   | NULL [ AFTER __time__expression ]
 
 variable_assignment_statement ::=
    [ label : ] target := expression ;
 
 procedure_call_statement ::= [ label : ] procedure_call ;
 
-procedure_call ::= *procedure_*name [ ( actual_parameter_part ) ]
+procedure_call ::= __procedure__name [ ( actual_parameter_part ) ]
 
 if_statement ::=
-   [ *if_*label : ]
+   [ __if__label : ]
           IF condition THEN
                sequence_of_statements
         { ELSIF condition THEN
                sequence_of_statements }
         [ ELSE
                sequence_of_statements ]
-          END IF [ *if_*label ] ;
+          END IF [ __if__label ] ;
 
 case_statement ::=
-   [ *case_*label : ]
+   [ __case__label : ]
           CASE expression IS
                case_statement_alternative
              { case_statement_alternative }
-          END CASE [ *case_*label ] ;
+          END CASE [ __case__label ] ;
 
 case_statement_alternative ::=
      WHEN choices =>
           sequence_of_statements
 
 loop_statement ::=
-   [ *loop_*label : ]
+   [ __loop__label : ]
         [ iteration_scheme ] LOOP
                sequence_of_statements
-          END LOOP [ *loop_*label ] ;
+          END LOOP [ __loop__label ] ;
 
 iteration_scheme ::=
      WHILE condition
-   | FOR *loop_*parameter_specification
+   | FOR __loop__parameter_specification
 
 parameter_specification ::=
      identifier IN discrete_range
 
 next_statement ::=
-   [ label : ] NEXT [ *loop_*label ] [ WHEN condition ] ;
+   [ label : ] NEXT [ __loop__label ] [ WHEN condition ] ;
 
 exit_statement ::=
-   [ label : ] EXIT [ *loop_*label ] [ WHEN condition ] ;
+   [ label : ] EXIT [ __loop__label ] [ WHEN condition ] ;
 
 return_statement ::=
    [ label : ] RETURN [ expression ] ;
@@ -792,13 +792,13 @@ concurrent_statement ::=
    | generate_statement
 
 block_statement ::=
-     *block_*label :
-          BLOCK [ ( *guard_*expression ) ] [ IS ]
+     __block__label :
+          BLOCK [ ( __guard__expression ) ] [ IS ]
                block_header
                block_declarative_part
           BEGIN
                block_statement_part
-          END BLOCK [ *block_*label ] ;
+          END BLOCK [ __block__label ] ;
 
 block_header ::=
    [ generic_clause
@@ -813,12 +813,12 @@ block_statement_part ::=
    { concurrent_statement }
 
 process_statement ::=
-   [ *process_*label : ]
+   [ __process__label : ]
         [ POSTPONED ] PROCESS [ ( sensitivity_list ) ] [ IS ]
                process_declarative_part
           BEGIN
                process_statement_part
-          END [ POSTPONED ] PROCESS [ *process_*label ] ;
+          END [ POSTPONED ] PROCESS [ __process__label ] ;
 
 process_declarative_part ::=
    { process_declarative_item }
@@ -869,26 +869,26 @@ selected_waveforms ::=
           waveform WHEN choices
 
 component_instantiation_statement ::=
-     *instantiation_*label :
+     __instantiation__label :
           instantiated_unit
              [ generic_map_aspect ]
              [ port_map_aspect ] ;
 
 instantiated_unit ::=
-   [ COMPONENT ] *component_*name
-   | ENTITY *entity_*name [ ( *architecture_*identifier ) ]
-   | CONFIGURATION *configuration_*name
+   [ COMPONENT ] __component__name
+   | ENTITY __entity__name [ ( __architecture__identifier ) ]
+   | CONFIGURATION __configuration__name
 
 generate_statement ::=
-     *generate_*label :
+     __generate__label :
      generation_scheme GENERATE
       [ { block_declarative_item }
      BEGIN ]
         { concurrent_statement }
-     END GENERATE [ *generate_*label ] ;
+     END GENERATE [ __generate__label ] ;
 
 generation_scheme ::=
-     FOR *generate_*parameter_specification
+     FOR __generate__parameter_specification
    | IF condition
 
 label ::= identifier
@@ -997,7 +997,7 @@ base_specifier ::= B | O | X
 instance_name ::= package_based_path | full_instance_based_path
 
 package_based_path ::=
-     leader *library_*logical_name leader *package_*simple_name leader
+     leader __library__logical_name leader __package__simple_name leader
         [ local_item_name ]
 
 full_instance_based_path ::= leader full_path_to_instance [ local_item_name ]
@@ -1010,17 +1010,17 @@ local_item_name ::=
      operator_symbol
 
 full_path_instance_element ::=
-   [ *component_instantiation_*label @ ]
-          *entity_*simple_name ( *architecture_*simple_name )
-   | *block_*label
+   [ __component_instantiation__label @ ]
+          __entity__simple_name ( __architecture__simple_name )
+   | __block__label
    | generate_label
    | process_label
-   | *loop_*label
-   | *subprogram_*simple_name
+   | __loop__label
+   | __subprogram__simple_name
 
-generate_label ::= *generate_*label [ ( literal ) ]
+generate_label ::= __generate__label [ ( literal ) ]
 
-process_label ::= [ *process_*label ]
+process_label ::= [ __process__label ]
 
 leader ::= :
 
@@ -1032,9 +1032,9 @@ instance_based_path ::=
 path_to_instance ::= { path_instance_element leader }
 
 path_instance_element ::=
-     *component_instantiation_*label
-   | *entity_*simple_name
-   | *block_*label
+     __component_instantiation__label
+   | __entity__simple_name
+   | __block__label
    | generate_label
    | process_label
-   | *subprogram_*simple_name
+   | __subprogram__simple_name
