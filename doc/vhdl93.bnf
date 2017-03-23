@@ -73,7 +73,7 @@ architecture_body ::=
          architecture_declarative_part
      BEGIN
          architecture_statement_part
-     END [ARCHITECTURE] [ __architecture__simple_name ] ;
+     END [ ARCHITECTURE ] [ __architecture__simple_name ] ;
 
 architecture_declarative_part ::=
    { block_declarative_item }
@@ -391,13 +391,13 @@ interface_declaration ::=
    | interface_file_declaration
 
 interface_constant_declaration ::=
-     [CONSTANT] identifier_list : [ IN ] subtype_indication [ := __static__expression ]
+     [ CONSTANT ] identifier_list : [ IN ] subtype_indication [ := __static__expression ]
 
 interface_signal_declaration ::=
-     [SIGNAL] identifier_list : [ mode ] subtype_indication [ BUS ] [ := __static__expression ]
+     [ SIGNAL ] identifier_list : [ mode ] subtype_indication [ BUS ] [ := __static__expression ]
 
 interface_variable_declaration ::=
-     [VARIABLE] identifier_list : [ mode ] subtype_indication [ := __static__expression ]
+     [ VARIABLE ] identifier_list : [ mode ] subtype_indication [ := __static__expression ]
 
 interface_file_declaration ::=
      FILE identifier_list subtype_indication
@@ -787,7 +787,7 @@ concurrent_statement ::=
    | process_statement
    | concurrent_procedure_call_statement
    | concurrent_assertion_statement
-   | c oncurrent_signal_assignment_statement
+   | concurrent_signal_assignment_statement
    | component_instantiation_statement
    | generate_statement
 
