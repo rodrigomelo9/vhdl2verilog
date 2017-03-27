@@ -62,7 +62,7 @@ def unroll(text):
         num+=1
         newresult = "%s_opt%d" % (result, num)
         text = text.replace("[ %s ]" % (match), newresult, 1)
-        text += "\n\n" + newresult + " : | " + match
+        text += "\n\n" + newresult + " ::= %empty | " + match
     # Square brackets
     # aaa : bbb [ ccc ] ddd [ eee ] [ fff ] ggg
     matches = re.findall(r"\[ (.*?) \]",text)
@@ -70,7 +70,7 @@ def unroll(text):
         num+=1
         newresult = "%s_opt%d" % (result, num)
         text = text.replace("[ %s ]" % (match), newresult, 1)
-        text += "\n\n" + newresult + " : | " + match
+        text += "\n\n" + newresult + " ::= %empty | " + match
     # Curly braces
     # aaa : { bbb }
     matches = re.findall(r"{ (.*?) }",text)
@@ -80,8 +80,8 @@ def unroll(text):
         num+=1
         newresult2 = "%s_opt%d" % (result, num)
         text = text.replace("{ %s }" % (match), newresult1, 1)
-        text += "\n\n" + newresult1 + " : | " + newresult1 + " " + newresult2
-        text += "\n\n" + newresult2 + " : " + match
+        text += "\n\n" + newresult1 + " ::= %empty | " + newresult1 + " " + newresult2
+        text += "\n\n" + newresult2 + " ::= " + match
     return text
 
 def indentate(text):
