@@ -16,6 +16,21 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+UPPER_CASE_LETTER [A-Z]
+LOWER_CASE_LETTER [a-z]
+DIGIT             [0-9]
+SPECIAL_CHARACTER [ "#&'()*+,-./:;<=>[]_|!¡$%@¿?\^{}~]
+
+LETTER            {UPPER_CASE_LETTER}|{LOWER_CASE_LETTER}
+LETTER_OR_DIGIT   {LETTER}|{DIGIT}
+CHARACTER         {LETTER_OR_DIGIT}|{SPECIAL_CHARACTER}
+
+INTEGER           {DIGIT}(_?{DIGIT}+)*
+EXPONENT          E\+?{INTEGER}|E-{INTEGER}
+
+EDIGIT            [0-9a-fA-F]
+EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
+
 %%
 
 "abs"                         { return RW_ABS;           }
@@ -115,6 +130,35 @@
 "with"                        { return RW_WITH;          }
 "xnor"                        { return RW_XNOR;          }
 "xor"                         { return RW_XOR;           }
+
+{LETTER}(_?{LETTER_OR_DIGIT}+)* |
+\\{CHARACTER}+\\ {
+   return IDENTIFIER;
+}
+
+{INTEGER}(\.{INTEGER})?{EXPONENT}? |
+{INTEGER}#{EINTEGER}(\.{EINTEGER})?#{EXPONENT}? {
+   return NUMBER; // ABSTRACT_LITERAL;
+}
+
+'{CHARACTER}' {
+   return CHARACTER; // CHARACTER_LITERAL;
+}
+
+"{CHARACTER}*" {
+   return STRING; // STRING_LITERAL;
+}
+
+[BOX]"({EDIGIT}(_?{EDIGIT}+)*)?" {
+   return BITSTRING; // BIT_STRING_LITERAL;
+}
+
+[ \t] |
+"--".*\n |
+"\x0d\n" |
+\n {;}
+
+. { return yytext[0]; }
 
 %%
 
