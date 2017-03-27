@@ -55,6 +55,7 @@ def addQuotes(text):
 def unroll(text):
     num = 0
     result  = re.match(r"[a-z_]*",text).group(0)
+    # Nested Square brackets
     # aaa : bbb [ ccc [ ddd ] ] [ eee [ fff ] ] ggg
     matches = re.findall(r"\[ (.*? \[ .*? \]) \]",text)
     for match in matches:
@@ -62,6 +63,7 @@ def unroll(text):
         newresult = "%s_opt%d" % (result, num)
         text = text.replace("[ %s ]" % (match), newresult, 1)
         text += "\n\n" + newresult + " : | " + match
+    # Square brackets
     # aaa : bbb [ ccc ] ddd [ eee ] [ fff ] ggg
     matches = re.findall(r"\[ (.*?) \]",text)
     for match in matches:
@@ -69,9 +71,8 @@ def unroll(text):
         newresult = "%s_opt%d" % (result, num)
         text = text.replace("[ %s ]" % (match), newresult, 1)
         text += "\n\n" + newresult + " : | " + match
-    # aaa : { bbb } -> aaa : | bbb
-    text = re.sub(r"::= { (.*?) }",r"| \1",text)
-    # Others {}
+    # Curly braces
+    # aaa : { bbb }
     matches = re.findall(r"{ (.*?) }",text)
     for match in matches:
         num+=1
