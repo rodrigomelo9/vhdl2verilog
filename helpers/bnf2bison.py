@@ -34,12 +34,39 @@ def indentate(text):
     text = re.sub(r"::= ", r":\n       " , text)
     return text
 
+def delete(text):
+    # Section 13
+    text = re.sub(r"\nbasic_graphic_character.*::=.*\n", "\n" , text)
+    text = re.sub(r"\ngraphic_character.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nbasic_character.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nidentifier ::=.*\n", "\n" , text)
+    text = re.sub(r"\nbasic_identifier.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nletter_or_digit.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nletter.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nextended_identifier.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nabstract_literal.*::=.*\n", "\n" , text)
+    text = re.sub(r"\ndecimal_literal.*::=.*\n", "\n" , text)
+    text = re.sub(r"\ninteger ::=.*\n", "\n" , text)
+    text = re.sub(r"\ninteger_opt.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nexponent ::=.*\n", "\n" , text)
+    text = re.sub(r"\nexponent_opt.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nbased_literal.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nbase ::=.*\n", "\n" , text)
+    text = re.sub(r"\nbased_integer.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nextended_digit.*::=.*\n", "\n" , text)
+    text = re.sub(r"\ncharacter_literal.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nstring_literal.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nbit_string_literal.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nbit_value.*::=.*\n", "\n" , text)
+    text = re.sub(r"\nbase_specifier.*::=.*\n", "\n" , text)
+    return text
+
 def printStats(text):
     print ("* Stats:")
     results = re.findall(r'([a-z_\d]+) :', text)
     results.sort()
     for res in results:
-        uses = re.findall(r' ?%s[ \n]' % (res), text)
+        uses = re.findall(r'( |\n|__)%s[ \n]' % (res), text)
         num  = len(uses) - 1
         flag = " (not used)" if (num < 1) else ""
         print ("%-50s %3d%s" % (res, num, flag))
@@ -49,6 +76,7 @@ def printStats(text):
 ###############################################################################
 
 text = transformations(text)
+text = delete(text)
 text = indentate(text)
 print ("\n* Code for Bison:\n" + text)
 printStats(text)
