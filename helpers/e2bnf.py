@@ -16,18 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import argparse, re, os, sys
+import sys, re
 
-parser = argparse.ArgumentParser(description='Get Reserved Words (UPPERCASE) from a BNF.')
-parser.add_argument('file', metavar='BNF_FILE', nargs=1, help='BNF file Name')
-
-opts = parser.parse_args()
-file = opts.file[0]
-
-if not os.path.isfile(file):
-   sys.exit("%s doesn't exists or is not a file" % (file))
-
-text = open(file, 'r').read()
+text = sys.stdin.read()
 
 ###############################################################################
 # Functions
@@ -38,7 +29,6 @@ def clean(text):
     text = re.sub(r"\n ", " ", text)                # Deleting line jumps
     text = re.sub(r"\n{2,}", "\n\n" , text)         # Delete multiple line jumps
     text = re.sub(r" +", " " , text)                # Delete multiple spaces
-    text = re.sub(r"([A-Z]{2,})", r"RW_\1" , text)  # Add RW_ prefix to Reserved Words
     return text
 
 def addQuotes(text):
@@ -62,7 +52,7 @@ def unroll(text):
         num+=1
         newresult = "%s_opt%d" % (result, num)
         text = text.replace("[ %s ]" % (match), newresult, 1)
-        text += "\n\n" + newresult + " ::= %empty | " + match
+        text += "\n\n" + newresult + " ::= | " + match
     # Square brackets
     # aaa : bbb [ ccc ] ddd [ eee ] [ fff ] ggg
     matches = re.findall(r"\[ (.*?) \]",text)
@@ -70,7 +60,7 @@ def unroll(text):
         num+=1
         newresult = "%s_opt%d" % (result, num)
         text = text.replace("[ %s ]" % (match), newresult, 1)
-        text += "\n\n" + newresult + " ::= %empty | " + match
+        text += "\n\n" + newresult + " ::= | " + match
     # Curly braces
     # aaa : { bbb }
     matches = re.findall(r"{ (.*?) }",text)
@@ -80,24 +70,9 @@ def unroll(text):
         num+=1
         newresult2 = "%s_opt%d" % (result, num)
         text = text.replace("{ %s }" % (match), newresult1, 1)
-        text += "\n\n" + newresult1 + " ::= %empty | " + newresult1 + " " + newresult2
+        text += "\n\n" + newresult1 + " ::= | " + newresult1 + " " + newresult2
         text += "\n\n" + newresult2 + " ::= " + match
     return text
-
-def indentate(text):
-    text = re.sub(r" \| ", r"\n     | " , text)
-    text = re.sub(r"::= ", r":\n       " , text)
-    return text
-
-def printStats(text):
-    print ("* Stats:")
-    results = re.findall(r'([a-z_\d]+) :', text)
-    results.sort()
-    for res in results:
-        uses = re.findall(r' ?%s[ \n]' % (res), text)
-        num  = len(uses) - 1
-        flag = " (not used)" if (num < 1) else ""
-        print ("%-50s %3d%s" % (res, num, flag))
 
 ###############################################################################
 # Main
@@ -111,8 +86,4 @@ text = ""
 for line in lines:
     text += unroll(line) + "\n"
 
-text = indentate(text)
-
-printStats(text)
-
-print ("\n* Code for Bison:\n" + text)
+print (text)

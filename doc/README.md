@@ -21,5 +21,5 @@ aaa_opt3 ::= ddd
 
 Note: the mentioned steps can be automatically done with:
 ```
-python ../helpers/e2bnf.py vhdl93.bnf
+cat vhdl93.bnf | python ../helpers/e2bnf.py
 ```

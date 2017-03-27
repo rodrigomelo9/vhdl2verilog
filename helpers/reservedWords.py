@@ -16,18 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import argparse, re, os, sys
+import sys, re
 
-parser = argparse.ArgumentParser(description='Get Reserved Words (UPPERCASE) from a BNF.')
-parser.add_argument('file', metavar='BNF_FILE', nargs=1, help='BNF file Name')
+text = sys.stdin.read()
 
-opts = parser.parse_args()
-file = opts.file[0]
-
-if not os.path.isfile(file):
-   sys.exit("%s doesn't exists or is not a file" % (file))
-
-text = open(file, 'r').read()
 text = re.sub(r"(?m)^;.*\n", "", text)   # Deleting comments
 
 reserved = re.findall("[A-Z]{2,}", text) # Catching reserved words
