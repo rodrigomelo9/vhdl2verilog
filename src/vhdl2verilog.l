@@ -22,17 +22,15 @@
 #include "vhdl2verilog.tab.h"
 %}
 
-UPPER_CASE_LETTER [A-Z]
-LOWER_CASE_LETTER [a-z]
 DIGIT             [0-9]
-SPECIAL_CHARACTER [ \"#&\'()*+,-./:;<=>\[\]_|!¡$%@¿?\\^{}~]
+LETTER            [A-Z]
+SPECIAL           [ \"#&\'()*+,-./:;<=>\[\]_|!¡$%@¿?\\^{}~]
 
-LETTER            {UPPER_CASE_LETTER}|{LOWER_CASE_LETTER}
 LETTER_OR_DIGIT   {LETTER}|{DIGIT}
-CHARACTER         {LETTER_OR_DIGIT}|{SPECIAL_CHARACTER}
+CHARACTER         {LETTER_OR_DIGIT}|{SPECIAL}
 
 INTEGER           {DIGIT}(_?{DIGIT}+)*
-EXPONENT          E\+?{INTEGER}|E-{INTEGER}
+EXPONENT          E[+-]?{INTEGER}
 
 EDIGIT            [0-9a-fA-F]
 EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
