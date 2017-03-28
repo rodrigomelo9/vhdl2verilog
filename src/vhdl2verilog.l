@@ -16,10 +16,16 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+%option noyywrap nodefault yylineno case-insensitive
+
+%{
+#include "vhdl2verilog.tab.h"
+%}
+
 UPPER_CASE_LETTER [A-Z]
 LOWER_CASE_LETTER [a-z]
 DIGIT             [0-9]
-SPECIAL_CHARACTER [ "#&'()*+,-./:;<=>[]_|!¡$%@¿?\^{}~]
+SPECIAL_CHARACTER [ \"#&\'()*+,-./:;<=>\[\]_|!¡$%@¿?\\^{}~]
 
 LETTER            {UPPER_CASE_LETTER}|{LOWER_CASE_LETTER}
 LETTER_OR_DIGIT   {LETTER}|{DIGIT}
@@ -141,11 +147,11 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
    return NUMBER; // ABSTRACT_LITERAL;
 }
 
-'{CHARACTER}' {
+\'{CHARACTER}\' {
    return CHARACTER; // CHARACTER_LITERAL;
 }
 
-"{CHARACTER}*" {
+\"{CHARACTER}*\" {
    return STRING; // STRING_LITERAL;
 }
 
