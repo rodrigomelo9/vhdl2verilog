@@ -18,6 +18,8 @@
 
 %{
 #include <stdio.h>
+
+#define YYSTYPE char *
 %}
 
 %token RW_ABS RW_ACCESS RW_AFTER RW_ALIAS RW_ALL RW_AND RW_ARCHITECTURE
@@ -34,121 +36,140 @@
 %token RW_THEN RW_TO RW_TRANSPORT RW_TYPE RW_UNAFFECTED RW_UNITS RW_UNTIL
 %token RW_USE RW_VARIABLE RW_WAIT RW_WHEN RW_WHILE RW_WITH RW_XNOR RW_XOR
 %token IDENTIFIER NUMBER CHARACTER STRING BITSTRING
+%token ARROW "=>" VASSIGN ":=" LE "<=" GE ">=" BOX "<>" NE "/=" EXP "**"
 
 %%
 
 start: %empty | start tokens
 
 tokens:
-       RW_ABS             { printf("RESERVED WORD\n"); }
-     | RW_ACCESS          { printf("RESERVED WORD\n"); }
-     | RW_AFTER           { printf("RESERVED WORD\n"); }
-     | RW_ALIAS           { printf("RESERVED WORD\n"); }
-     | RW_ALL             { printf("RESERVED WORD\n"); }
-     | RW_AND             { printf("RESERVED WORD\n"); }
-     | RW_ARCHITECTURE    { printf("RESERVED WORD\n"); }
-     | RW_ARRAY           { printf("RESERVED WORD\n"); }
-     | RW_ASSERT          { printf("RESERVED WORD\n"); }
-     | RW_ATTRIBUTE       { printf("RESERVED WORD\n"); }
-     | RW_BEGIN           { printf("RESERVED WORD\n"); }
-     | RW_BLOCK           { printf("RESERVED WORD\n"); }
-     | RW_BODY            { printf("RESERVED WORD\n"); }
-     | RW_BUFFER          { printf("RESERVED WORD\n"); }
-     | RW_BUS             { printf("RESERVED WORD\n"); }
-     | RW_CASE            { printf("RESERVED WORD\n"); }
-     | RW_COMPONENT       { printf("RESERVED WORD\n"); }
-     | RW_CONFIGURATION   { printf("RESERVED WORD\n"); }
-     | RW_CONSTANT        { printf("RESERVED WORD\n"); }
-     | RW_DISCONNECT      { printf("RESERVED WORD\n"); }
-     | RW_DOWNTO          { printf("RESERVED WORD\n"); }
-     | RW_ELSE            { printf("RESERVED WORD\n"); }
-     | RW_ELSIF           { printf("RESERVED WORD\n"); }
-     | RW_END             { printf("RESERVED WORD\n"); }
-     | RW_ENTITY          { printf("RESERVED WORD\n"); }
-     | RW_EXIT            { printf("RESERVED WORD\n"); }
-     | RW_FILE            { printf("RESERVED WORD\n"); }
-     | RW_FOR             { printf("RESERVED WORD\n"); }
-     | RW_FUNCTION        { printf("RESERVED WORD\n"); }
-     | RW_GENERATE        { printf("RESERVED WORD\n"); }
-     | RW_GENERIC         { printf("RESERVED WORD\n"); }
-     | RW_GROUP           { printf("RESERVED WORD\n"); }
-     | RW_GUARDED         { printf("RESERVED WORD\n"); }
-     | RW_IF              { printf("RESERVED WORD\n"); }
-     | RW_IMPURE          { printf("RESERVED WORD\n"); }
-     | RW_IN              { printf("RESERVED WORD\n"); }
-     | RW_INERTIAL        { printf("RESERVED WORD\n"); }
-     | RW_INOUT           { printf("RESERVED WORD\n"); }
-     | RW_IS              { printf("RESERVED WORD\n"); }
-     | RW_LABEL           { printf("RESERVED WORD\n"); }
-     | RW_LIBRARY         { printf("RESERVED WORD\n"); }
-     | RW_LINKAGE         { printf("RESERVED WORD\n"); }
-     | RW_LITERAL         { printf("RESERVED WORD\n"); }
-     | RW_LOOP            { printf("RESERVED WORD\n"); }
-     | RW_MAP             { printf("RESERVED WORD\n"); }
-     | RW_MOD             { printf("RESERVED WORD\n"); }
-     | RW_NAND            { printf("RESERVED WORD\n"); }
-     | RW_NEW             { printf("RESERVED WORD\n"); }
-     | RW_NEXT            { printf("RESERVED WORD\n"); }
-     | RW_NOR             { printf("RESERVED WORD\n"); }
-     | RW_NOT             { printf("RESERVED WORD\n"); }
-     | RW_NULL            { printf("RESERVED WORD\n"); }
-     | RW_OF              { printf("RESERVED WORD\n"); }
-     | RW_ON              { printf("RESERVED WORD\n"); }
-     | RW_OPEN            { printf("RESERVED WORD\n"); }
-     | RW_OR              { printf("RESERVED WORD\n"); }
-     | RW_OTHERS          { printf("RESERVED WORD\n"); }
-     | RW_OUT             { printf("RESERVED WORD\n"); }
-     | RW_PACKAGE         { printf("RESERVED WORD\n"); }
-     | RW_PORT            { printf("RESERVED WORD\n"); }
-     | RW_POSTPONED       { printf("RESERVED WORD\n"); }
-     | RW_PROCEDURE       { printf("RESERVED WORD\n"); }
-     | RW_PROCESS         { printf("RESERVED WORD\n"); }
-     | RW_PURE            { printf("RESERVED WORD\n"); }
-     | RW_RANGE           { printf("RESERVED WORD\n"); }
-     | RW_RECORD          { printf("RESERVED WORD\n"); }
-     | RW_REGISTER        { printf("RESERVED WORD\n"); }
-     | RW_REJECT          { printf("RESERVED WORD\n"); }
-     | RW_REM             { printf("RESERVED WORD\n"); }
-     | RW_REPORT          { printf("RESERVED WORD\n"); }
-     | RW_RETURN          { printf("RESERVED WORD\n"); }
-     | RW_ROL             { printf("RESERVED WORD\n"); }
-     | RW_ROR             { printf("RESERVED WORD\n"); }
-     | RW_SELECT          { printf("RESERVED WORD\n"); }
-     | RW_SEVERITY        { printf("RESERVED WORD\n"); }
-     | RW_SHARED          { printf("RESERVED WORD\n"); }
-     | RW_SIGNAL          { printf("RESERVED WORD\n"); }
-     | RW_SLA             { printf("RESERVED WORD\n"); }
-     | RW_SLL             { printf("RESERVED WORD\n"); }
-     | RW_SRA             { printf("RESERVED WORD\n"); }
-     | RW_SRL             { printf("RESERVED WORD\n"); }
-     | RW_SUBTYPE         { printf("RESERVED WORD\n"); }
-     | RW_THEN            { printf("RESERVED WORD\n"); }
-     | RW_TO              { printf("RESERVED WORD\n"); }
-     | RW_TRANSPORT       { printf("RESERVED WORD\n"); }
-     | RW_TYPE            { printf("RESERVED WORD\n"); }
-     | RW_UNAFFECTED      { printf("RESERVED WORD\n"); }
-     | RW_UNITS           { printf("RESERVED WORD\n"); }
-     | RW_UNTIL           { printf("RESERVED WORD\n"); }
-     | RW_USE             { printf("RESERVED WORD\n"); }
-     | RW_VARIABLE        { printf("RESERVED WORD\n"); }
-     | RW_WAIT            { printf("RESERVED WORD\n"); }
-     | RW_WHEN            { printf("RESERVED WORD\n"); }
-     | RW_WHILE           { printf("RESERVED WORD\n"); }
-     | RW_WITH            { printf("RESERVED WORD\n"); }
-     | RW_XNOR            { printf("RESERVED WORD\n"); }
-     | RW_XOR             { printf("RESERVED WORD\n"); }
-     | IDENTIFIER         { printf("IDENTIFIER\n"); }
-     | NUMBER             { printf("NUMBER\n"); }
-     | CHARACTER          { printf("CHARACTER\n"); }
-     | STRING             { printf("STRING\n"); }
-     | BITSTRING          { printf("BITSTRING\n"); }
-     | '+'                { printf("Simple Operand\n"); }
-     | '-'                { printf("Simple Operand\n"); }
-     | '*'                { printf("Simple Operand\n"); }
-     | '/'                { printf("Simple Operand\n"); }
-     | "**"               { printf("Double Operand\n"); }
-     | "<="               { printf("Double Operand\n"); }
-     | "=>"               { printf("Double Operand\n"); }
+       RW_ABS             { printf("Reserved Word\n");     }
+     | RW_ACCESS          { printf("Reserved Word\n");     }
+     | RW_AFTER           { printf("Reserved Word\n");     }
+     | RW_ALIAS           { printf("Reserved Word\n");     }
+     | RW_ALL             { printf("Reserved Word\n");     }
+     | RW_AND             { printf("Reserved Word\n");     }
+     | RW_ARCHITECTURE    { printf("Reserved Word\n");     }
+     | RW_ARRAY           { printf("Reserved Word\n");     }
+     | RW_ASSERT          { printf("Reserved Word\n");     }
+     | RW_ATTRIBUTE       { printf("Reserved Word\n");     }
+     | RW_BEGIN           { printf("Reserved Word\n");     }
+     | RW_BLOCK           { printf("Reserved Word\n");     }
+     | RW_BODY            { printf("Reserved Word\n");     }
+     | RW_BUFFER          { printf("Reserved Word\n");     }
+     | RW_BUS             { printf("Reserved Word\n");     }
+     | RW_CASE            { printf("Reserved Word\n");     }
+     | RW_COMPONENT       { printf("Reserved Word\n");     }
+     | RW_CONFIGURATION   { printf("Reserved Word\n");     }
+     | RW_CONSTANT        { printf("Reserved Word\n");     }
+     | RW_DISCONNECT      { printf("Reserved Word\n");     }
+     | RW_DOWNTO          { printf("Reserved Word\n");     }
+     | RW_ELSE            { printf("Reserved Word\n");     }
+     | RW_ELSIF           { printf("Reserved Word\n");     }
+     | RW_END             { printf("Reserved Word\n");     }
+     | RW_ENTITY          { printf("Reserved Word\n");     }
+     | RW_EXIT            { printf("Reserved Word\n");     }
+     | RW_FILE            { printf("Reserved Word\n");     }
+     | RW_FOR             { printf("Reserved Word\n");     }
+     | RW_FUNCTION        { printf("Reserved Word\n");     }
+     | RW_GENERATE        { printf("Reserved Word\n");     }
+     | RW_GENERIC         { printf("Reserved Word\n");     }
+     | RW_GROUP           { printf("Reserved Word\n");     }
+     | RW_GUARDED         { printf("Reserved Word\n");     }
+     | RW_IF              { printf("Reserved Word\n");     }
+     | RW_IMPURE          { printf("Reserved Word\n");     }
+     | RW_IN              { printf("Reserved Word\n");     }
+     | RW_INERTIAL        { printf("Reserved Word\n");     }
+     | RW_INOUT           { printf("Reserved Word\n");     }
+     | RW_IS              { printf("Reserved Word\n");     }
+     | RW_LABEL           { printf("Reserved Word\n");     }
+     | RW_LIBRARY         { printf("Reserved Word\n");     }
+     | RW_LINKAGE         { printf("Reserved Word\n");     }
+     | RW_LITERAL         { printf("Reserved Word\n");     }
+     | RW_LOOP            { printf("Reserved Word\n");     }
+     | RW_MAP             { printf("Reserved Word\n");     }
+     | RW_MOD             { printf("Reserved Word\n");     }
+     | RW_NAND            { printf("Reserved Word\n");     }
+     | RW_NEW             { printf("Reserved Word\n");     }
+     | RW_NEXT            { printf("Reserved Word\n");     }
+     | RW_NOR             { printf("Reserved Word\n");     }
+     | RW_NOT             { printf("Reserved Word\n");     }
+     | RW_NULL            { printf("Reserved Word\n");     }
+     | RW_OF              { printf("Reserved Word\n");     }
+     | RW_ON              { printf("Reserved Word\n");     }
+     | RW_OPEN            { printf("Reserved Word\n");     }
+     | RW_OR              { printf("Reserved Word\n");     }
+     | RW_OTHERS          { printf("Reserved Word\n");     }
+     | RW_OUT             { printf("Reserved Word\n");     }
+     | RW_PACKAGE         { printf("Reserved Word\n");     }
+     | RW_PORT            { printf("Reserved Word\n");     }
+     | RW_POSTPONED       { printf("Reserved Word\n");     }
+     | RW_PROCEDURE       { printf("Reserved Word\n");     }
+     | RW_PROCESS         { printf("Reserved Word\n");     }
+     | RW_PURE            { printf("Reserved Word\n");     }
+     | RW_RANGE           { printf("Reserved Word\n");     }
+     | RW_RECORD          { printf("Reserved Word\n");     }
+     | RW_REGISTER        { printf("Reserved Word\n");     }
+     | RW_REJECT          { printf("Reserved Word\n");     }
+     | RW_REM             { printf("Reserved Word\n");     }
+     | RW_REPORT          { printf("Reserved Word\n");     }
+     | RW_RETURN          { printf("Reserved Word\n");     }
+     | RW_ROL             { printf("Reserved Word\n");     }
+     | RW_ROR             { printf("Reserved Word\n");     }
+     | RW_SELECT          { printf("Reserved Word\n");     }
+     | RW_SEVERITY        { printf("Reserved Word\n");     }
+     | RW_SHARED          { printf("Reserved Word\n");     }
+     | RW_SIGNAL          { printf("Reserved Word\n");     }
+     | RW_SLA             { printf("Reserved Word\n");     }
+     | RW_SLL             { printf("Reserved Word\n");     }
+     | RW_SRA             { printf("Reserved Word\n");     }
+     | RW_SRL             { printf("Reserved Word\n");     }
+     | RW_SUBTYPE         { printf("Reserved Word\n");     }
+     | RW_THEN            { printf("Reserved Word\n");     }
+     | RW_TO              { printf("Reserved Word\n");     }
+     | RW_TRANSPORT       { printf("Reserved Word\n");     }
+     | RW_TYPE            { printf("Reserved Word\n");     }
+     | RW_UNAFFECTED      { printf("Reserved Word\n");     }
+     | RW_UNITS           { printf("Reserved Word\n");     }
+     | RW_UNTIL           { printf("Reserved Word\n");     }
+     | RW_USE             { printf("Reserved Word\n");     }
+     | RW_VARIABLE        { printf("Reserved Word\n");     }
+     | RW_WAIT            { printf("Reserved Word\n");     }
+     | RW_WHEN            { printf("Reserved Word\n");     }
+     | RW_WHILE           { printf("Reserved Word\n");     }
+     | RW_WITH            { printf("Reserved Word\n");     }
+     | RW_XNOR            { printf("Reserved Word\n");     }
+     | RW_XOR             { printf("Reserved Word\n");     }
+     | IDENTIFIER         { printf("IDENTIFIER\n");        }
+     | NUMBER             { printf("NUMBER\n");            }
+     | CHARACTER          { printf("CHARACTER\n");         }
+     | STRING             { printf("STRING\n");            }
+     | BITSTRING          { printf("BITSTRING\n");         }
+     | '&'                { printf("Delimiter\n");         }
+     | '\''               { printf("Delimiter\n");         }
+     | '('                { printf("Delimiter\n");         }
+     | ')'                { printf("Delimiter\n");         }
+     | '*'                { printf("Delimiter\n");         }
+     | '+'                { printf("Delimiter\n");         }
+     | ','                { printf("Delimiter\n");         }
+     | '-'                { printf("Delimiter\n");         }
+     | '.'                { printf("Delimiter\n");         }
+     | '/'                { printf("Delimiter\n");         }
+     | ':'                { printf("Delimiter\n");         }
+     | ';'                { printf("Delimiter\n");         }
+     | '<'                { printf("Delimiter\n");         }
+     | '='                { printf("Delimiter\n");         }
+     | '>'                { printf("Delimiter\n");         }
+     | '|'                { printf("Delimiter\n");         }
+     | '['                { printf("Delimiter\n");         }
+     | ']'                { printf("Delimiter\n");         }
+     | "=>"               { printf("Compund Delimiter\n"); }
+     | "**"               { printf("Compund Delimiter\n"); }
+     | ":="               { printf("Compund Delimiter\n"); }
+     | "/="               { printf("Compund Delimiter\n"); }
+     | ">="               { printf("Compund Delimiter\n"); }
+     | "<="               { printf("Compund Delimiter\n"); }
+     | "<>"               { printf("Compund Delimiter\n"); }
 
 %%
 

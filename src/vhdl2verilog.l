@@ -32,7 +32,7 @@ CHARACTER         {LETTER_OR_DIGIT}|{SPECIAL}
 INTEGER           {DIGIT}(_?{DIGIT}+)*
 EXPONENT          E[+-]?{INTEGER}
 
-EDIGIT            [0-9a-fA-F]
+EDIGIT            [0-9A-F]
 EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 
 %%
@@ -135,6 +135,14 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 "xnor"                        { return RW_XNOR;          }
 "xor"                         { return RW_XOR;           }
 
+"=>"                          { return ARROW;            }
+":="                          { return VASSIGN;          }
+"<="                          { return LE;               }
+">="                          { return GE;               }
+"<>"                          { return BOX;              }
+"/="                          { return NE;               }
+"**"                          { return EXP;              }
+
 {LETTER}(_?{LETTER_OR_DIGIT}+)* |
 \\{CHARACTER}+\\ {
    return IDENTIFIER;
@@ -159,7 +167,6 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 
 [ \t] |
 "--".*\n |
-"\x0d\n" |
 \n {;}
 
 . { return yytext[0]; }
