@@ -1,16 +1,16 @@
 #!/usr/bin/make
 # by RAM
 
-all: vhdl2verilog
+all: testTokens
 
-vhdl2verilog.tab.c vhdl2verilog.tab.h: vhdl2verilog.y
-	bison -d $<
+vhdl2verilog.tab.c vhdl2verilog.tab.h: testTokens.y
+	bison -d $< -o vhdl2verilog.tab.c
 
 lex.yy.c: ../src/vhdl2verilog.l vhdl2verilog.tab.h
 	flex $<
 
-vhdl2verilog: lex.yy.c vhdl2verilog.tab.c
+testTokens: lex.yy.c vhdl2verilog.tab.c
 	cc -o $@ vhdl2verilog.tab.c lex.yy.c -lfl
 
 clean:
-	rm -fr vhdl2verilog.tab.c vhdl2verilog.tab.h lex.yy.c vhdl2verilog
+	rm -fr vhdl2verilog.tab.c vhdl2verilog.tab.h lex.yy.c testTokens
