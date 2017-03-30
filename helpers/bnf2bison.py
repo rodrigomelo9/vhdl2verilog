@@ -59,6 +59,12 @@ def delete(text):
     text = re.sub(r"\nbit_string_literal.*::=.*\n", "\n" , text)
     text = re.sub(r"\nbit_value.*::=.*\n", "\n" , text)
     text = re.sub(r"\nbase_specifier.*::=.*\n", "\n" , text)
+    # replaces
+    text = re.sub(r" identifier ", " IDENTIFIER " , text)
+    text = re.sub(r" abstract_literal ", " NUMBER " , text)
+    text = re.sub(r" character_literal ", " CHARACTER " , text)
+    text = re.sub(r" string_literal ", " STRING " , text)
+    text = re.sub(r" bit_string_literal ", " BITSTRING " , text)
     return text
 
 def printStats(text):
