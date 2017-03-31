@@ -161,7 +161,7 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
    return STRING; // STRING_LITERAL;
 }
 
-[BOX]"({EDIGIT}(_?{EDIGIT}+)*)?" {
+[BOX]\"({EDIGIT}(_?{EDIGIT}+)*)?\" {
    return BITSTRING; // BIT_STRING_LITERAL;
 }
 
