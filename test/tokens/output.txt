@@ -1,0 +1,177 @@
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Reserved Word
+Delimiter
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+IDENTIFIER
+Delimiter
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+NUMBER
+Delimiter
+CHARACTER
+CHARACTER
+CHARACTER
+CHARACTER
+Delimiter
+STRING
+STRING
+STRING
+Delimiter
+BITSTRING
+BITSTRING
+BITSTRING
+BITSTRING
+Delimiter
+Compund Delimiter
+Compund Delimiter
+Compund Delimiter
+Compund Delimiter
+Compund Delimiter
+Compund Delimiter
+Compund Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter
+Delimiter

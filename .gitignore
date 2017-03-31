@@ -3,4 +3,5 @@ ignore
 *.tab.*
 lex.yy.c
 vhdl2verilog
+tokens
 example

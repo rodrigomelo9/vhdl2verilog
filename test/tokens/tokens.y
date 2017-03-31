@@ -18,8 +18,6 @@
 
 %{
 #include <stdio.h>
-
-#define YYSTYPE char *
 %}
 
 %token RW_ABS RW_ACCESS RW_AFTER RW_ALIAS RW_ALL RW_AND RW_ARCHITECTURE
@@ -145,24 +143,39 @@ tokens:
      | CHARACTER          { printf("CHARACTER\n");         }
      | STRING             { printf("STRING\n");            }
      | BITSTRING          { printf("BITSTRING\n");         }
-     | '&'                { printf("Delimiter\n");         }
+     | '+'                { printf("Delimiter\n");         }
+     | '-'                { printf("Delimiter\n");         }
+     | '*'                { printf("Delimiter\n");         }
+     | '/'                { printf("Delimiter\n");         }
+     | '"'                { printf("Delimiter\n");         }
      | '\''               { printf("Delimiter\n");         }
+     | '#'                { printf("Delimiter\n");         }
+     | '&'                { printf("Delimiter\n");         }
      | '('                { printf("Delimiter\n");         }
      | ')'                { printf("Delimiter\n");         }
-     | '*'                { printf("Delimiter\n");         }
-     | '+'                { printf("Delimiter\n");         }
      | ','                { printf("Delimiter\n");         }
-     | '-'                { printf("Delimiter\n");         }
      | '.'                { printf("Delimiter\n");         }
-     | '/'                { printf("Delimiter\n");         }
      | ':'                { printf("Delimiter\n");         }
      | ';'                { printf("Delimiter\n");         }
      | '<'                { printf("Delimiter\n");         }
      | '='                { printf("Delimiter\n");         }
      | '>'                { printf("Delimiter\n");         }
-     | '|'                { printf("Delimiter\n");         }
      | '['                { printf("Delimiter\n");         }
      | ']'                { printf("Delimiter\n");         }
+     | '_'                { printf("Delimiter\n");         }
+     | '|'                { printf("Delimiter\n");         }
+     | '!'                { printf("Delimiter\n");         }
+     | '¡'                { printf("Delimiter\n");         }
+     | '$'                { printf("Delimiter\n");         }
+     | '%'                { printf("Delimiter\n");         }
+     | '@'                { printf("Delimiter\n");         }
+     | '¿'                { printf("Delimiter\n");         }
+     | '?'                { printf("Delimiter\n");         }
+     | '\\'               { printf("Delimiter\n");         }
+     | '^'                { printf("Delimiter\n");         }
+     | '{'                { printf("Delimiter\n");         }
+     | '}'                { printf("Delimiter\n");         }
+     | '~'                { printf("Delimiter\n");         }
      | "=>"               { printf("Compund Delimiter\n"); }
      | "**"               { printf("Compund Delimiter\n"); }
      | ":="               { printf("Compund Delimiter\n"); }
