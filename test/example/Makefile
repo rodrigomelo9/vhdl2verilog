@@ -1,7 +1,7 @@
 #!/usr/bin/make
 # by RAM
 
-all: example
+all: example_bin
 
 example.tab.c example.tab.h: example.y
 	bison -d $<
@@ -9,11 +9,11 @@ example.tab.c example.tab.h: example.y
 lex.yy.c: example.l example.tab.h
 	flex $<
 
-example: lex.yy.c example.tab.c
+example_bin: lex.yy.c example.tab.c
 	cc -g -O1 -o $@ example.tab.c lex.yy.c -lfl
 
 clean:
-	rm -fr example.tab.c example.tab.h lex.yy.c example
+	rm -fr example.tab.c example.tab.h lex.yy.c example_bin
 
-run:
-	valgrind --leak-check=yes ./example
+run: example_bin
+	valgrind --leak-check=yes ./example_bin
