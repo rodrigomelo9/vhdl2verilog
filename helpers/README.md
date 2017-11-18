@@ -20,11 +20,11 @@ Example:
 cat ../doc/vhdl93.bnf | python e2bnf.py | python bnf2bison.py
 ```
 
-## reservedWords.py
+## bnf2flex.py
 
 Used to convert the BNF in code for Flex.
 
 Example:
 ```
-cat ../doc/vhdl93.bnf | python e2bnf.py | python reservedWords.py
+cat ../doc/vhdl93.bnf | python e2bnf.py | python bnf2flex.py
 ```
