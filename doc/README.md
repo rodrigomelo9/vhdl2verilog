@@ -18,8 +18,3 @@ aaa_opt1 ::= %empty | ccc
 aaa_opt2 ::= %empty | aaa_opt2 aaa_opt3
 aaa_opt3 ::= ddd
 ```
-
-Note: the mentioned steps can be automatically done with:
-```
-cat vhdl93.bnf | python ../helpers/e2bnf.py
-```
