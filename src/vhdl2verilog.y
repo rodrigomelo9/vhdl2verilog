@@ -1174,7 +1174,8 @@ choices_opt1 :
        %empty
      | choices_opt1 choices_opt2
 
-choices_opt2 ::=
+choices_opt2 :
+       %empty
      | choice
 
 choice :
