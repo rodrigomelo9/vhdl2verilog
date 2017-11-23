@@ -24,48 +24,38 @@ text = sys.stdin.read()
 # Functions
 ###############################################################################
 
-def transformations(text):
-    text = re.sub(r"([A-Z]{2,})", r"RW_\1" , text)  # Add RW_ prefix to Reserved Words
-    text = re.sub(r"::= \|", r"::= %empty |" , text)
-    return text
-
-def indentate(text):
-    text = re.sub(r" \| ", r"\n     | " , text)
-    text = re.sub(r"::= ", r":\n       " , text)
-    return text
-
-def delete(text):
-    # Section 13
-    text = re.sub(r"\nbasic_graphic_character.*::=.*\n", "\n" , text)
-    text = re.sub(r"\ngraphic_character.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nbasic_character.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nidentifier ::=.*\n", "\n" , text)
-    text = re.sub(r"\nbasic_identifier.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nletter_or_digit.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nletter.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nextended_identifier.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nabstract_literal.*::=.*\n", "\n" , text)
-    text = re.sub(r"\ndecimal_literal.*::=.*\n", "\n" , text)
-    text = re.sub(r"\ninteger ::=.*\n", "\n" , text)
-    text = re.sub(r"\ninteger_opt.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nexponent ::=.*\n", "\n" , text)
-    text = re.sub(r"\nexponent_opt.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nbased_literal.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nbase ::=.*\n", "\n" , text)
-    text = re.sub(r"\nbased_integer.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nextended_digit.*::=.*\n", "\n" , text)
-    text = re.sub(r"\ncharacter_literal.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nstring_literal.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nbit_string_literal.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nbit_value.*::=.*\n", "\n" , text)
-    text = re.sub(r"\nbase_specifier.*::=.*\n", "\n" , text)
-    # replaces
-    text = re.sub(r" identifier ", " IDENTIFIER " , text)
-    text = re.sub(r" abstract_literal ", " NUMBER " , text)
-    text = re.sub(r" character_literal ", " CHARACTER " , text)
-    text = re.sub(r" string_literal ", " STRING " , text)
-    text = re.sub(r" bit_string_literal ", " BITSTRING " , text)
-    return text
+#def delete(text):
+#    # Section 13
+#    text = re.sub(r"\nbasic_graphic_character.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\ngraphic_character.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbasic_character.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nidentifier ::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbasic_identifier.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nletter_or_digit.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nletter.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nextended_identifier.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nabstract_literal.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\ndecimal_literal.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\ninteger ::=.*\n", "\n" , text)
+#    text = re.sub(r"\ninteger_opt.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nexponent ::=.*\n", "\n" , text)
+#    text = re.sub(r"\nexponent_opt.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbased_literal.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbase ::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbased_integer.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nextended_digit.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\ncharacter_literal.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nstring_literal.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbit_string_literal.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbit_value.*::=.*\n", "\n" , text)
+#    text = re.sub(r"\nbase_specifier.*::=.*\n", "\n" , text)
+#    # replaces
+#    text = re.sub(r" identifier ", " IDENTIFIER " , text)
+#    text = re.sub(r" abstract_literal ", " NUMBER " , text)
+#    text = re.sub(r" character_literal ", " CHARACTER " , text)
+#    text = re.sub(r" string_literal ", " STRING " , text)
+#    text = re.sub(r" bit_string_literal ", " BITSTRING " , text)
+#    return text
 
 def printStats(text):
     print ("* Stats:")
@@ -81,8 +71,10 @@ def printStats(text):
 # Main
 ###############################################################################
 
-text = transformations(text)
-text = delete(text)
-text = indentate(text)
+text = re.sub(r"([A-Z]{2,})" , r"RW_\1"        , text) # Add RW_ prefix to Reserved Words
+text = re.sub(r"::= \|"      , r"::= %empty |" , text)
+text = re.sub(r" \| "        , r"\n     | "    , text)
+text = re.sub(r"::= "        , r":\n       "   , text)
+
 print ("\n* Code for Bison:\n" + text)
 printStats(text)
