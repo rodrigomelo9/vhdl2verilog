@@ -143,6 +143,22 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 "/="                          { return NE;               }
 "**"                          { return POW;              }
 
+[0-9]                         {return digit;                   }
+[A-Z]                         {return upper_case_letter;       }
+[a-z]                         {return lower_case_letter;       }
+[ ]                           {return space_character;         }
+[_]                           {return underline; }
+[\"#&\'()*+,-./:;<=>\[\]|]    {return special_character;       }
+[¡$%@?\\^{}~!¿]               {return other_special_character; }
+
+"--".*\n                      {;}
+[\t\n\v\f\r]                  {;}
+
+. { return yytext[0]; }
+
+%%
+
+/*
 {LETTER}(_?{LETTER_OR_DIGIT}+)* |
 \\{CHARACTER}+\\ {
    return IDENTIFIER;
@@ -164,12 +180,4 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 [BOX]\"({EDIGIT}(_?{EDIGIT}+)*)?\" {
    return BITSTRING; // BIT_STRING_LITERAL;
 }
-
-[ \t] |
-"--".*\n |
-\n {;}
-
-. { return yytext[0]; }
-
-%%
-
+*/
