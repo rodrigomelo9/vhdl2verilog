@@ -71,10 +71,11 @@ def printStats(text):
 # Main
 ###############################################################################
 
-text = re.sub(r"([A-Z]{2,})" , r"RW_\1"        , text) # Add RW_ prefix to Reserved Words
-text = re.sub(r"::= \|"      , r"::= %empty |" , text)
-text = re.sub(r" \| "        , r"\n     | "    , text)
-text = re.sub(r"::= "        , r":\n       "   , text)
+text = re.sub(r"([A-Z]{2,})" , r"RW_\1"             , text) # Add RW_ prefix to Reserved Words
+text = re.sub(r"::= \|"      , r"::= /* empty */ |" , text)
+text = re.sub(r" \| "        , r"\n     | "         , text)
+text = re.sub(r"::= "        , r":\n       "        , text)
+text = re.sub(r"(__\w+__)"   , r"/*\1*/"            , text)
 
 print (text)
 
