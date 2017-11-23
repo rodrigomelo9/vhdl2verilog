@@ -76,5 +76,6 @@ text = re.sub(r"::= \|"      , r"::= %empty |" , text)
 text = re.sub(r" \| "        , r"\n     | "    , text)
 text = re.sub(r"::= "        , r":\n       "   , text)
 
-print ("\n* Code for Bison:\n" + text)
+print (text)
+
 printStats(text)
