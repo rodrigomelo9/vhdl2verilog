@@ -65,7 +65,7 @@ entity_statement_part ::=
 
 entity_statement ::=
      concurrent_assertion_statement
-   | __passive__concurrent_procedure_call
+   | __passive__concurrent_procedure_call_statement
    | __passive__process_statement
 
 architecture_body ::=
@@ -175,7 +175,7 @@ subprogram_declarative_item ::=
    | constant_declaration
    | variable_declaration
    | file_declaration
-   | alias_declaratio
+   | alias_declaration
    | attribute_declaration
    | attribute_specification
    | use_clause
@@ -233,7 +233,7 @@ package_body_declarative_item ::=
    | alias_declaration
    | use_clause
    | group_template_declaration
-   | group_ declaration
+   | group_declaration
 
 ; -----------------------------------------------------------------------------
 ; Section 3: Types
@@ -380,7 +380,7 @@ variable_declaration ::=
 file_declaration ::=
      FILE identifier_list : subtype_indication [ file_open_information ] ;
 
-file_open_information ::= [ OPEN __file_open__kind_expression ] IS file_logical_name
+file_open_information ::= [ OPEN __file_open_kind__expression ] IS file_logical_name
 
 file_logical_name ::= __string__expression
 
@@ -835,7 +835,7 @@ process_declarative_item ::=
    | attribute_declaration
    | attribute_specification
    | use_clause
-   | group_type_declaration
+   | group_template_declaration
    | group_declaration
 
 process_statement_part ::=
