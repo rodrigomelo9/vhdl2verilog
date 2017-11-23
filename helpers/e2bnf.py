@@ -32,15 +32,14 @@ def clean(text):
     return text
 
 def addQuotes(text):
-    text = re.sub(r"'"                                , r"'\''"  , text)
+    text = re.sub(r"'"                                , r"'\''"            , text)
     text = re.sub(r"\[ \[ type_mark"                  , r"'[' [ type_mark" , text) # for the special case of signatures
     text = re.sub(r"type_mark \] \]"                  , r"type_mark ] ']'" , text) # for the special case of signatures
-    text = re.sub(r" (/=|<=|>=|=>|<>|:=|\*\*)([ \n])" , r' "\1"\2' , text)
-    text = re.sub(r" (\(|\)|\\)([ \n])"               , r" '\1'\2" , text)
-    text = re.sub(r" ([;#&@+-:*/=<>,.])([ \n])"       , r" '\1'\2" , text)
-    text = re.sub(r" ([EBOX])([ \n])"                 , r" '\1'\2" , text) # Bases and scientific notation
-    #text = re.sub(r" \ "                              , r" '\\' "  , text)
-    #text = re.sub(r" (\") "                           , r" '\1' "  , text)
+    text = re.sub(r" (/=|<=|>=|=>|<>|:=|\*\*)([ \n])" , r' "\1"\2'         , text)
+    text = re.sub(r" (\(|\)|\")([ \n])"               , r" '\1'\2"         , text)
+    text = re.sub(r" (\\)([ \n])"                     , r" '\1\1'\2"       , text)
+    text = re.sub(r" ([;#&@+-:*/=<>,.])([ \n])"       , r" '\1'\2"         , text)
+    text = re.sub(r" ([EBOX])([ \n])"                 , r" '\1'\2"         , text) # Bases and scientific notation
     return text
 
 def unroll(text):

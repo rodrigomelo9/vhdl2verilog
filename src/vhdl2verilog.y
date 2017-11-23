@@ -1875,7 +1875,7 @@ letter :
      | lower_case_letter
 
 extended_identifier :
-       '\' graphic_character extended_identifier_opt1 '\'
+       '\\' graphic_character extended_identifier_opt1 '\\'
 
 extended_identifier_opt1 :
        %empty
@@ -1957,7 +1957,7 @@ character_literal :
        '\'' graphic_character '\''
 
 string_literal :
-       " string_literal_opt1 "
+       '"' string_literal_opt1 '"'
 
 string_literal_opt1 :
        %empty
@@ -1967,7 +1967,7 @@ string_literal_opt2 :
        graphic_character
 
 bit_string_literal :
-       base_specifier " bit_string_literal_opt1 "
+       base_specifier '"' bit_string_literal_opt1 '"'
 
 bit_string_literal_opt1 :
        %empty
