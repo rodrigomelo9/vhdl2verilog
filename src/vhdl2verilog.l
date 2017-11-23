@@ -141,7 +141,7 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 ">="                          { return GE;               }
 "<>"                          { return BOX;              }
 "/="                          { return NE;               }
-"**"                          { return EXP;              }
+"**"                          { return POW;              }
 
 {LETTER}(_?{LETTER_OR_DIGIT}+)* |
 \\{CHARACTER}+\\ {
