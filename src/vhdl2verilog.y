@@ -16,6 +16,29 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+%{
+#include <stdio.h>
+#include <stdlib.h>
+%}
+
+%token RW_ABS RW_ACCESS RW_AFTER RW_ALIAS RW_ALL RW_AND RW_ARCHITECTURE
+%token RW_ARRAY RW_ASSERT RW_ATTRIBUTE RW_BEGIN RW_BLOCK RW_BODY RW_BUFFER
+%token RW_BUS RW_CASE RW_COMPONENT RW_CONFIGURATION RW_CONSTANT RW_DISCONNECT
+%token RW_DOWNTO RW_ELSE RW_ELSIF RW_END RW_ENTITY RW_EXIT RW_FILE RW_FOR
+%token RW_FUNCTION RW_GENERATE RW_GENERIC RW_GROUP RW_GUARDED RW_IF RW_IMPURE
+%token RW_IN RW_INERTIAL RW_INOUT RW_IS RW_LABEL RW_LIBRARY RW_LINKAGE
+%token RW_LITERAL RW_LOOP RW_MAP RW_MOD RW_NAND RW_NEW RW_NEXT RW_NOR RW_NOT
+%token RW_NULL RW_OF RW_ON RW_OPEN RW_OR RW_OTHERS RW_OUT RW_PACKAGE RW_PORT
+%token RW_POSTPONED RW_PROCEDURE RW_PROCESS RW_PURE RW_RANGE RW_RECORD
+%token RW_REGISTER RW_REJECT RW_REM RW_REPORT RW_RETURN RW_ROL RW_ROR RW_SELECT
+%token RW_SEVERITY RW_SHARED RW_SIGNAL RW_SLA RW_SLL RW_SRA RW_SRL RW_SUBTYPE
+%token RW_THEN RW_TO RW_TRANSPORT RW_TYPE RW_UNAFFECTED RW_UNITS RW_UNTIL
+%token RW_USE RW_VARIABLE RW_WAIT RW_WHEN RW_WHILE RW_WITH RW_XNOR RW_XOR
+%token IDENTIFIER NUMBER CHARACTER STRING BITSTRING
+%token ARROW "=>" VASSIGN ":=" LE "<=" GE ">=" BOX "<>" NE "/=" POW "**"
+
+%start design_file
+
 %%
 
 entity_declaration :
@@ -1931,10 +1954,10 @@ extended_digit :
      | letter
 
 character_literal :
-       '\'' graphic_character '
+       '\'' graphic_character '\''
 
 string_literal :
-       '"' string_literal_opt1 "
+       " string_literal_opt1 "
 
 string_literal_opt1 :
        %empty
@@ -1944,7 +1967,7 @@ string_literal_opt2 :
        graphic_character
 
 bit_string_literal :
-       base_specifier '"' bit_string_literal_opt1 "
+       base_specifier " bit_string_literal_opt1 "
 
 bit_string_literal_opt1 :
        %empty
@@ -2060,3 +2083,10 @@ path_instance_element :
 
 %%
 
+main(int argc, char **argv) {
+   yyparse();
+}
+
+yyerror(char *s) {
+   fprintf(stderr, "error: %s\n", s);
+}
