@@ -1239,12 +1239,13 @@ choices_opt1 :
 choice :
        simple_expression
      | discrete_range
-     | /*__element__*/ simple_name
+//   | /*__element__*/ simple_name
+     | basic_identifier
+     | extended_identifier
      | RW_OTHERS
 
 function_call :
-       /*__function__*/ name
-     | /*__function__*/ name '(' actual_parameter_part ')'
+       /*__function__*/ name '(' actual_parameter_part ')'
 
 //function_call_opt1 :
 //       /* empty */
