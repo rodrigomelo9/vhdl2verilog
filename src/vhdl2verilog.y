@@ -50,7 +50,8 @@
 
 %token ARROW "=>" VASSIGN ":=" LE "<=" GE ">=" BOX "<>" NE "/=" POW "**"
 
-%token LETTER DIGIT UNDERLINE CHARACTER CHARACTER_LITERAL
+%token LETTER DIGIT UNDERLINE CHARACTER
+%token CHARACTER_LITERAL STRING_LITERAL BITSTRING_LITERAL
 
 %start design_file
 
@@ -278,10 +279,7 @@ subprogram_specification_opt3 :
 
 designator :
        identifier
-     | operator_symbol
-
-operator_symbol :
-       string_literal
+     | STRING_LITERAL
 
 formal_parameter_list :
        /*__parameter__*/ interface_list
@@ -759,7 +757,7 @@ alias_declaration_opt2 :
 alias_designator :
        identifier
      | CHARACTER_LITERAL
-     | operator_symbol
+     | STRING_LITERAL
 
 attribute_declaration :
        RW_ATTRIBUTE identifier ':' type_mark ';'
@@ -867,7 +865,7 @@ entity_designator_opt1 :
 entity_tag :
        simple_name
      | CHARACTER_LITERAL
-     | operator_symbol
+     | STRING_LITERAL
 
 configuration_specification :
        RW_FOR component_specification binding_indication ';'
@@ -937,7 +935,7 @@ signal_list_opt2 :
 
 name :
        simple_name
-     | operator_symbol
+     | STRING_LITERAL
      | selected_name
      | indexed_name
      | slice_name
@@ -956,7 +954,7 @@ selected_name :
 suffix :
        simple_name
      | CHARACTER_LITERAL
-     | operator_symbol
+     | STRING_LITERAL
      | RW_ALL
 
 indexed_name :
@@ -1112,15 +1110,12 @@ multiplying_operator :
      | RW_REM
 
 literal :
-       numeric_literal
-     | enumeration_literal
-     | '"' string_literal_opt1 '"'
-     | bit_string_literal
-     | RW_NULL
-
-numeric_literal :
        abstract_literal
      | physical_literal
+     | enumeration_literal
+     | STRING_LITERAL
+     | BITSTRING_LITERAL
+     | RW_NULL
 
 aggregate :
        '(' element_association aggregate_opt1 ')'
@@ -1835,7 +1830,7 @@ base :
        integer
 
 based_integer :
-       extended_digit based_integer_opt2
+       letter_or_digit based_integer_opt2
 
 based_integer_opt1 :
        /* empty */
@@ -1846,44 +1841,7 @@ based_integer_opt2 :
      | based_integer_opt2 based_integer_opt3
 
 based_integer_opt3 :
-       based_integer_opt1 extended_digit
-
-extended_digit :
-       DIGIT
-     | LETTER
-
-string_literal :
-       '"' string_literal_opt1 '"'
-
-string_literal_opt1 :
-       /* empty */
-     | string_literal_opt1 CHARACTER
-
-bit_string_literal :
-       base_specifier '"' bit_string_literal_opt1 '"'
-
-bit_string_literal_opt1 :
-       /* empty */
-     | bit_value
-
-bit_value :
-       extended_digit bit_value_opt2
-
-bit_value_opt1 :
-       /* empty */
-     | UNDERLINE
-
-bit_value_opt2 :
-       /* empty */
-     | bit_value_opt2 bit_value_opt3
-
-bit_value_opt3 :
-       bit_value_opt1 extended_digit
-
-base_specifier :
-       'B'
-     | 'O'
-     | 'X'
+       based_integer_opt1 letter_or_digit
 
 %%
 

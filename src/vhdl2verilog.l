@@ -29,9 +29,10 @@ SPACE_CHAR        " "
 SPECIAL_CHAR      [\"#&\'()*+,-./:;<=>\[\]_|]
 OTHER_CHAR        [¡$%@?\\^{}~!¿]
 SPECIAL           {SPACE_CHAR}|{SPECIAL_CHAR}|{OTHER_CHAR}
+UNDERLINE         "_"
 
 CHARACTER         {LETTER}|{DIGIT}|{SPECIAL}
-
+BITVALUE          {LETTER}|{DIGIT}|{UNDERLINE}
 
 INTEGER           {DIGIT}(_?{DIGIT}+)*
 EXPONENT          E[+-]?{INTEGER}
@@ -149,8 +150,10 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 
 {LETTER}                      { return LETTER;           }
 {DIGIT}                       { return DIGIT;            }
-"_"                           { return UNDERLINE;        }
+{UNDERLINE}                   { return UNDERLINE;        }
 
+[BOX]\"{BITVALUE}*\"          { return BITSTRING_LITERAL;}
+\"{CHARACTER}*\"              { return STRING_LITERAL;   }
 \'{CHARACTER}\'               { return CHARACTER_LITERAL;}
 {CHARACTER}                   { return CHARACTER;        }
 
@@ -170,10 +173,6 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 {INTEGER}(\.{INTEGER})?{EXPONENT}? |
 {INTEGER}#{EINTEGER}(\.{EINTEGER})?#{EXPONENT}? {
    return NUMBER; // ABSTRACT_LITERAL;
-}
-
-\"{CHARACTER}*\" {
-   return STRING; // STRING_LITERAL;
 }
 
 [BOX]\"({EDIGIT}(_?{EDIGIT}+)*)?\" {
