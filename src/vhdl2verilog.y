@@ -50,8 +50,10 @@
 
 %token ARROW "=>" VASSIGN ":=" LE "<=" GE ">=" BOX "<>" NE "/=" POW "**"
 
-%token digit upper_case_letter lower_case_letter space_character
+%token digit space_character
 %token underline special_character other_special_character
+
+%token LETTER
 
 %start design_file
 
@@ -1761,15 +1763,11 @@ context_item :
        library_clause
      | use_clause
 
-basic_graphic_character :
-       upper_case_letter
+graphic_character :
+       LETTER
      | digit
      | special_character
      | space_character
-
-graphic_character :
-       basic_graphic_character
-     | lower_case_letter
      | other_special_character
 
 identifier :
@@ -1777,7 +1775,7 @@ identifier :
      | extended_identifier
 
 basic_identifier :
-       letter basic_identifier_opt2
+       LETTER basic_identifier_opt2
 
 basic_identifier_opt2 :
        /* empty */
@@ -1788,12 +1786,8 @@ basic_identifier_opt3 :
      | underline letter_or_digit
 
 letter_or_digit :
-       letter
+       LETTER
      | digit
-
-letter :
-       upper_case_letter
-     | lower_case_letter
 
 extended_identifier :
        '\\' graphic_character extended_identifier_opt1 '\\'
@@ -1869,7 +1863,7 @@ based_integer_opt3 :
 
 extended_digit :
        digit
-     | letter
+     | LETTER
 
 character_literal :
        '\'' graphic_character '\''

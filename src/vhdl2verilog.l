@@ -22,8 +22,11 @@
 #include "vhdl2verilog.tab.h"
 %}
 
-DIGIT             [0-9]
 LETTER            [A-Z]
+
+
+
+DIGIT             [0-9]
 SPECIAL           [ \"#&\'()*+,-./:;<=>\[\]_|!¡$%@¿?\\^{}~]
 
 LETTER_OR_DIGIT   {LETTER}|{DIGIT}
@@ -143,9 +146,9 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 "/="                          { return NE;               }
 "**"                          { return POW;              }
 
+{LETTER}                      { return LETTER;           }
+
 [0-9]                         {return digit;                   }
-[A-Z]                         {return upper_case_letter;       }
-[a-z]                         {return lower_case_letter;       }
 [ ]                           {return space_character;         }
 [_]                           {return underline; }
 [\"#&\'()*+,-./:;<=>\[\]|]    {return special_character;       }
