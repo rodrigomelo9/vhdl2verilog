@@ -26,7 +26,7 @@ LETTER            [A-Z]
 DIGIT             [0-9]
 
 SPACE_CHAR        " "
-SPECIAL_CHAR      [\"#&\'()*+,-./:;<=>\[\]|]
+SPECIAL_CHAR      [\"#&\'()*+,-./:;<=>\[\]_|]
 OTHER_CHAR        [¡$%@?\\^{}~!¿]
 SPECIAL           {SPACE_CHAR}|{SPECIAL_CHAR}|{OTHER_CHAR}
 
@@ -150,6 +150,8 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 {LETTER}                      { return LETTER;           }
 {DIGIT}                       { return DIGIT;            }
 "_"                           { return UNDERLINE;        }
+
+\'{CHARACTER}\'               { return CHARACTER_LITERAL;}
 {CHARACTER}                   { return CHARACTER;        }
 
 "--".*\n                      {;}
@@ -168,10 +170,6 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 {INTEGER}(\.{INTEGER})?{EXPONENT}? |
 {INTEGER}#{EINTEGER}(\.{EINTEGER})?#{EXPONENT}? {
    return NUMBER; // ABSTRACT_LITERAL;
-}
-
-\'{CHARACTER}\' {
-   return CHARACTER; // CHARACTER_LITERAL;
 }
 
 \"{CHARACTER}*\" {

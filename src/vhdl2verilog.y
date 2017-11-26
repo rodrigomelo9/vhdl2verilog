@@ -50,7 +50,7 @@
 
 %token ARROW "=>" VASSIGN ":=" LE "<=" GE ">=" BOX "<>" NE "/=" POW "**"
 
-%token LETTER DIGIT UNDERLINE CHARACTER
+%token LETTER DIGIT UNDERLINE CHARACTER CHARACTER_LITERAL
 
 %start design_file
 
@@ -454,7 +454,7 @@ enumeration_type_definition_opt2 :
 
 enumeration_literal :
        identifier
-     | character_literal
+     | CHARACTER_LITERAL
 
 physical_type_definition :
        range_constraint RW_UNITS primary_unit_declaration physical_type_definition_opt2 RW_END RW_UNITS physical_type_definition_opt1
@@ -758,7 +758,7 @@ alias_declaration_opt2 :
 
 alias_designator :
        identifier
-     | character_literal
+     | CHARACTER_LITERAL
      | operator_symbol
 
 attribute_declaration :
@@ -818,7 +818,7 @@ group_constituent_list_opt2 :
 
 group_constituent :
        name
-     | character_literal
+     | CHARACTER_LITERAL
 
 attribute_specification :
        RW_ATTRIBUTE attribute_designator RW_OF entity_specification RW_IS expression ';'
@@ -866,7 +866,7 @@ entity_designator_opt1 :
 
 entity_tag :
        simple_name
-     | character_literal
+     | CHARACTER_LITERAL
      | operator_symbol
 
 configuration_specification :
@@ -955,7 +955,7 @@ selected_name :
 
 suffix :
        simple_name
-     | character_literal
+     | CHARACTER_LITERAL
      | operator_symbol
      | RW_ALL
 
@@ -1851,9 +1851,6 @@ based_integer_opt3 :
 extended_digit :
        DIGIT
      | LETTER
-
-character_literal :
-       '\'' CHARACTER '\''
 
 string_literal :
        '"' string_literal_opt1 '"'
