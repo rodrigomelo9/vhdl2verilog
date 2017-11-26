@@ -50,10 +50,7 @@
 
 %token ARROW "=>" VASSIGN ":=" LE "<=" GE ">=" BOX "<>" NE "/=" POW "**"
 
-%token digit space_character
-%token underline special_character other_special_character
-
-%token LETTER
+%token LETTER DIGIT UNDERLINE CHARACTER
 
 %start design_file
 
@@ -1763,13 +1760,6 @@ context_item :
        library_clause
      | use_clause
 
-graphic_character :
-       LETTER
-     | digit
-     | special_character
-     | space_character
-     | other_special_character
-
 identifier :
        basic_identifier
      | extended_identifier
@@ -1783,21 +1773,18 @@ basic_identifier_opt2 :
 
 basic_identifier_opt3 :
        letter_or_digit
-     | underline letter_or_digit
+     | UNDERLINE letter_or_digit
 
 letter_or_digit :
        LETTER
-     | digit
+     | DIGIT
 
 extended_identifier :
-       '\\' graphic_character extended_identifier_opt1 '\\'
+       '\\' CHARACTER extended_identifier_opt1 '\\'
 
 extended_identifier_opt1 :
        /* empty */
-     | extended_identifier_opt1 extended_identifier_opt2
-
-extended_identifier_opt2 :
-       graphic_character
+     | extended_identifier_opt1 CHARACTER
 
 abstract_literal :
        decimal_literal
@@ -1815,15 +1802,15 @@ decimal_literal_opt2 :
      | exponent
 
 integer :
-       digit integer_opt2
+       DIGIT integer_opt2
 
 integer_opt2 :
        /* empty */
      | integer_opt2 integer_opt3
 
 integer_opt3 :
-       digit
-     | underline digit
+       DIGIT
+     | UNDERLINE DIGIT
 
 exponent :
        'E' exponent_opt1 integer
@@ -1852,7 +1839,7 @@ based_integer :
 
 based_integer_opt1 :
        /* empty */
-     | underline
+     | UNDERLINE
 
 based_integer_opt2 :
        /* empty */
@@ -1862,21 +1849,18 @@ based_integer_opt3 :
        based_integer_opt1 extended_digit
 
 extended_digit :
-       digit
+       DIGIT
      | LETTER
 
 character_literal :
-       '\'' graphic_character '\''
+       '\'' CHARACTER '\''
 
 string_literal :
        '"' string_literal_opt1 '"'
 
 string_literal_opt1 :
        /* empty */
-     | string_literal_opt1 string_literal_opt2
-
-string_literal_opt2 :
-       graphic_character
+     | string_literal_opt1 CHARACTER
 
 bit_string_literal :
        base_specifier '"' bit_string_literal_opt1 '"'
@@ -1890,7 +1874,7 @@ bit_value :
 
 bit_value_opt1 :
        /* empty */
-     | underline
+     | UNDERLINE
 
 bit_value_opt2 :
        /* empty */

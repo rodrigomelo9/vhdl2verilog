@@ -23,14 +23,15 @@
 %}
 
 LETTER            [A-Z]
-
-
-
 DIGIT             [0-9]
-SPECIAL           [ \"#&\'()*+,-./:;<=>\[\]_|!¡$%@¿?\\^{}~]
 
-LETTER_OR_DIGIT   {LETTER}|{DIGIT}
-CHARACTER         {LETTER_OR_DIGIT}|{SPECIAL}
+SPACE_CHAR        " "
+SPECIAL_CHAR      [\"#&\'()*+,-./:;<=>\[\]|]
+OTHER_CHAR        [¡$%@?\\^{}~!¿]
+SPECIAL           {SPACE_CHAR}|{SPECIAL_CHAR}|{OTHER_CHAR}
+
+CHARACTER         {LETTER}|{DIGIT}|{SPECIAL}
+
 
 INTEGER           {DIGIT}(_?{DIGIT}+)*
 EXPONENT          E[+-]?{INTEGER}
@@ -147,12 +148,9 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 "**"                          { return POW;              }
 
 {LETTER}                      { return LETTER;           }
-
-[0-9]                         {return digit;                   }
-[ ]                           {return space_character;         }
-[_]                           {return underline; }
-[\"#&\'()*+,-./:;<=>\[\]|]    {return special_character;       }
-[¡$%@?\\^{}~!¿]               {return other_special_character; }
+{DIGIT}                       { return DIGIT;            }
+"_"                           { return UNDERLINE;        }
+{CHARACTER}                   { return CHARACTER;        }
 
 "--".*\n                      {;}
 [\t\n\v\f\r]                  {;}
