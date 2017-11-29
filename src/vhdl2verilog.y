@@ -48,8 +48,10 @@
 %token RW_WHEN           RW_WHILE          RW_WITH           RW_XNOR
 %token RW_XOR
 
+// Compound delimiters
 %token ARROW "=>" VASSIGN ":=" LE "<=" GE ">=" BOX "<>" NE "/=" POW "**"
 
+// Other lexical elements
 %token IDENTIFIER ABSTRACT_LITERAL CHARACTER_LITERAL STRING_LITERAL BIT_STRING_LITERAL
 
 %start design_file
@@ -530,7 +532,7 @@ interface_variable_declaration_opt2 :
 
 interface_variable_declaration_opt3 :
        /* empty */
-     | ":=" /*__static__*/ expression
+     | ":=" expression
 
 interface_file_declaration :
        RW_FILE identifier_list subtype_indication
@@ -996,7 +998,7 @@ delay_mechanism :
 
 delay_mechanism_opt1 :
        /* empty */
-     | RW_REJECT /*__time__*/ expression
+     | RW_REJECT expression
 
 target :
        name
@@ -1283,7 +1285,7 @@ generate_statement_opt5 :
      | generate_statement_opt5 block_declarative_item
 
 generation_scheme :
-       RW_FOR /*__generate__*/ parameter_specification
+       RW_FOR parameter_specification
      | RW_IF condition
 
 use_clause :
