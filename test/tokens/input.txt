@@ -91,18 +91,23 @@ WITH
 XNOR
 XOR
 
-+
+-- Delimiters
+& ' ( ) * + , - . / : ; < = > | [ ]
+
+-- Compound delimiters
+=> ** := /= >= <= <>
 
 -- Identifiers
 --- Basic identifiers
-COUNT X c_out FFT Decoder
-VHSIC X1 PageCount STORE_NEXT_ITEM
+COUNT	X	c_out		FFT			Decoder
+VHSIC	X1	PageCount	STORE_NEXT_ITEM
 --- Extended identifiers
-\BUS\ \bus\        -- Here only one extended identifier is reconigzed
+\BUS\
+\bus\
 \a\\b\
-VHDL \VHDL\ \vhdl\ -- Here only one extended identifier is reconigzed
-
--
+VHDL
+\VHDL\
+\vhdl\
 
 -- Abstract literals
 --- Decimal literals
@@ -114,41 +119,16 @@ VHDL \VHDL\ \vhdl\ -- Here only one extended identifier is reconigzed
 16#E#E1		2#1110_0000#
 16#F.FF#E+2	2#1.1111_1111_111#E11
 
-*
-
 -- Character literals
 'A' '*' ''' ' '
-
-/
 
 -- String literals
 "Setup time is too short"
 ""
 " " "A" """"
 
->
-
 -- Bit string literals
 B"1111_1111_1111"
 X"FFF"
 O"777"
 X"777"
-
-<
-
-**
-<=
->=
-=>
-<>
-:=
-/=
-
-" '
-# & $ % @
-( ) [ ] { }
-, . : ;
-< = >
-_ | \ --^ ~
-! ? ¿ ¡
-

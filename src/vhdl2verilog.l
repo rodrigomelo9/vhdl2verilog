@@ -158,7 +158,7 @@ BASED_LITERAL     {INTEGER}#{BASED_INTEGER}(\.{BASED_INTEGER})?#{EXPONENT}?
 [BOX]\"{BIT_VALUE}*\"         { return BIT_STRING_LITERAL;}
 
 "--".*\n                      {;}
-[\t\n\v\f\r]                  {;}
+[ \t\n\v\f\r]                  {;}
 
 . { return yytext[0]; }
 
