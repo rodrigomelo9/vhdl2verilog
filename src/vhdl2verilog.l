@@ -24,138 +24,138 @@
 
 LETTER            [A-Z]
 DIGIT             [0-9]
+LETTER_OR_DIGIT   {LETTER}|{DIGIT}
+SPACE             " "
+SPECIAL           [\"#&\'()*+,-./:;<=>\[\]_|]
+OTHER             [¡$%@?\\^{}~!¿]
 
-SPACE_CHAR        " "
-SPECIAL_CHAR      [\"#&\'()*+,-./:;<=>\[\]_|]
-OTHER_CHAR        [¡$%@?\\^{}~!¿]
-SPECIAL           {SPACE_CHAR}|{SPECIAL_CHAR}|{OTHER_CHAR}
-UNDERLINE         "_"
-
-CHARACTER         {LETTER}|{DIGIT}|{SPECIAL}
-BITVALUE          {LETTER}|{DIGIT}|{UNDERLINE}
+GRAPHIC_CHARACTER {LETTER}|{DIGIT}|{SPACE}|{SPECIAL}|{OTHER}
+BASIC_IDENTIFIER  {LETTER}(_?{LETTER_OR_DIGIT}+)*
+BIT_VALUE         {LETTER_OR_DIGIT}(_?{LETTER_OR_DIGIT}+)*
 
 INTEGER           {DIGIT}(_?{DIGIT}+)*
 EXPONENT          E[+-]?{INTEGER}
+DECIMAL_LITERAL   {INTEGER}(\.{INTEGER})?{EXPONENT}?
 
-EDIGIT            [0-9A-F]
-EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
+EXTENDED_DIGIT    [0-9A-F]
+BASED_INTEGER     {EXTENDED_DIGIT}(_?{EXTENDED_DIGIT}+)*
+BASED_LITERAL     {INTEGER}#{BASED_INTEGER}(\.{BASED_INTEGER})?#{EXPONENT}?
 
 %%
 
-"abs"                         { return RW_ABS;           }
-"access"                      { return RW_ACCESS;        }
-"after"                       { return RW_AFTER;         }
-"alias"                       { return RW_ALIAS;         }
-"all"                         { return RW_ALL;           }
-"and"                         { return RW_AND;           }
-"architecture"                { return RW_ARCHITECTURE;  }
-"array"                       { return RW_ARRAY;         }
-"assert"                      { return RW_ASSERT;        }
-"attribute"                   { return RW_ATTRIBUTE;     }
-"begin"                       { return RW_BEGIN;         }
-"block"                       { return RW_BLOCK;         }
-"body"                        { return RW_BODY;          }
-"buffer"                      { return RW_BUFFER;        }
-"bus"                         { return RW_BUS;           }
-"case"                        { return RW_CASE;          }
-"component"                   { return RW_COMPONENT;     }
-"configuration"               { return RW_CONFIGURATION; }
-"constant"                    { return RW_CONSTANT;      }
-"disconnect"                  { return RW_DISCONNECT;    }
-"downto"                      { return RW_DOWNTO;        }
-"else"                        { return RW_ELSE;          }
-"elsif"                       { return RW_ELSIF;         }
-"end"                         { return RW_END;           }
-"entity"                      { return RW_ENTITY;        }
-"exit"                        { return RW_EXIT;          }
-"file"                        { return RW_FILE;          }
-"for"                         { return RW_FOR;           }
-"function"                    { return RW_FUNCTION;      }
-"generate"                    { return RW_GENERATE;      }
-"generic"                     { return RW_GENERIC;       }
-"group"                       { return RW_GROUP;         }
-"guarded"                     { return RW_GUARDED;       }
-"if"                          { return RW_IF;            }
-"impure"                      { return RW_IMPURE;        }
-"in"                          { return RW_IN;            }
-"inertial"                    { return RW_INERTIAL;      }
-"inout"                       { return RW_INOUT;         }
-"is"                          { return RW_IS;            }
-"label"                       { return RW_LABEL;         }
-"library"                     { return RW_LIBRARY;       }
-"linkage"                     { return RW_LINKAGE;       }
-"literal"                     { return RW_LITERAL;       }
-"loop"                        { return RW_LOOP;          }
-"map"                         { return RW_MAP;           }
-"mod"                         { return RW_MOD;           }
-"nand"                        { return RW_NAND;          }
-"new"                         { return RW_NEW;           }
-"next"                        { return RW_NEXT;          }
-"nor"                         { return RW_NOR;           }
-"not"                         { return RW_NOT;           }
-"null"                        { return RW_NULL;          }
-"of"                          { return RW_OF;            }
-"on"                          { return RW_ON;            }
-"open"                        { return RW_OPEN;          }
-"or"                          { return RW_OR;            }
-"others"                      { return RW_OTHERS;        }
-"out"                         { return RW_OUT;           }
-"package"                     { return RW_PACKAGE;       }
-"port"                        { return RW_PORT;          }
-"postponed"                   { return RW_POSTPONED;     }
-"procedure"                   { return RW_PROCEDURE;     }
-"process"                     { return RW_PROCESS;       }
-"pure"                        { return RW_PURE;          }
-"range"                       { return RW_RANGE;         }
-"record"                      { return RW_RECORD;        }
-"register"                    { return RW_REGISTER;      }
-"reject"                      { return RW_REJECT;        }
-"rem"                         { return RW_REM;           }
-"report"                      { return RW_REPORT;        }
-"return"                      { return RW_RETURN;        }
-"rol"                         { return RW_ROL;           }
-"ror"                         { return RW_ROR;           }
-"select"                      { return RW_SELECT;        }
-"severity"                    { return RW_SEVERITY;      }
-"shared"                      { return RW_SHARED;        }
-"signal"                      { return RW_SIGNAL;        }
-"sla"                         { return RW_SLA;           }
-"sll"                         { return RW_SLL;           }
-"sra"                         { return RW_SRA;           }
-"srl"                         { return RW_SRL;           }
-"subtype"                     { return RW_SUBTYPE;       }
-"then"                        { return RW_THEN;          }
-"to"                          { return RW_TO;            }
-"transport"                   { return RW_TRANSPORT;     }
-"type"                        { return RW_TYPE;          }
-"unaffected"                  { return RW_UNAFFECTED;    }
-"units"                       { return RW_UNITS;         }
-"until"                       { return RW_UNTIL;         }
-"use"                         { return RW_USE;           }
-"variable"                    { return RW_VARIABLE;      }
-"wait"                        { return RW_WAIT;          }
-"when"                        { return RW_WHEN;          }
-"while"                       { return RW_WHILE;         }
-"with"                        { return RW_WITH;          }
-"xnor"                        { return RW_XNOR;          }
-"xor"                         { return RW_XOR;           }
+"abs"                         { return RW_ABS;            }
+"access"                      { return RW_ACCESS;         }
+"after"                       { return RW_AFTER;          }
+"alias"                       { return RW_ALIAS;          }
+"all"                         { return RW_ALL;            }
+"and"                         { return RW_AND;            }
+"architecture"                { return RW_ARCHITECTURE;   }
+"array"                       { return RW_ARRAY;          }
+"assert"                      { return RW_ASSERT;         }
+"attribute"                   { return RW_ATTRIBUTE;      }
+"begin"                       { return RW_BEGIN;          }
+"block"                       { return RW_BLOCK;          }
+"body"                        { return RW_BODY;           }
+"buffer"                      { return RW_BUFFER;         }
+"bus"                         { return RW_BUS;            }
+"case"                        { return RW_CASE;           }
+"component"                   { return RW_COMPONENT;      }
+"configuration"               { return RW_CONFIGURATION;  }
+"constant"                    { return RW_CONSTANT;       }
+"disconnect"                  { return RW_DISCONNECT;     }
+"downto"                      { return RW_DOWNTO;         }
+"else"                        { return RW_ELSE;           }
+"elsif"                       { return RW_ELSIF;          }
+"end"                         { return RW_END;            }
+"entity"                      { return RW_ENTITY;         }
+"exit"                        { return RW_EXIT;           }
+"file"                        { return RW_FILE;           }
+"for"                         { return RW_FOR;            }
+"function"                    { return RW_FUNCTION;       }
+"generate"                    { return RW_GENERATE;       }
+"generic"                     { return RW_GENERIC;        }
+"group"                       { return RW_GROUP;          }
+"guarded"                     { return RW_GUARDED;        }
+"if"                          { return RW_IF;             }
+"impure"                      { return RW_IMPURE;         }
+"in"                          { return RW_IN;             }
+"inertial"                    { return RW_INERTIAL;       }
+"inout"                       { return RW_INOUT;          }
+"is"                          { return RW_IS;             }
+"label"                       { return RW_LABEL;          }
+"library"                     { return RW_LIBRARY;        }
+"linkage"                     { return RW_LINKAGE;        }
+"literal"                     { return RW_LITERAL;        }
+"loop"                        { return RW_LOOP;           }
+"map"                         { return RW_MAP;            }
+"mod"                         { return RW_MOD;            }
+"nand"                        { return RW_NAND;           }
+"new"                         { return RW_NEW;            }
+"next"                        { return RW_NEXT;           }
+"nor"                         { return RW_NOR;            }
+"not"                         { return RW_NOT;            }
+"null"                        { return RW_NULL;           }
+"of"                          { return RW_OF;             }
+"on"                          { return RW_ON;             }
+"open"                        { return RW_OPEN;           }
+"or"                          { return RW_OR;             }
+"others"                      { return RW_OTHERS;         }
+"out"                         { return RW_OUT;            }
+"package"                     { return RW_PACKAGE;        }
+"port"                        { return RW_PORT;           }
+"postponed"                   { return RW_POSTPONED;      }
+"procedure"                   { return RW_PROCEDURE;      }
+"process"                     { return RW_PROCESS;        }
+"pure"                        { return RW_PURE;           }
+"range"                       { return RW_RANGE;          }
+"record"                      { return RW_RECORD;         }
+"register"                    { return RW_REGISTER;       }
+"reject"                      { return RW_REJECT;         }
+"rem"                         { return RW_REM;            }
+"report"                      { return RW_REPORT;         }
+"return"                      { return RW_RETURN;         }
+"rol"                         { return RW_ROL;            }
+"ror"                         { return RW_ROR;            }
+"select"                      { return RW_SELECT;         }
+"severity"                    { return RW_SEVERITY;       }
+"shared"                      { return RW_SHARED;         }
+"signal"                      { return RW_SIGNAL;         }
+"sla"                         { return RW_SLA;            }
+"sll"                         { return RW_SLL;            }
+"sra"                         { return RW_SRA;            }
+"srl"                         { return RW_SRL;            }
+"subtype"                     { return RW_SUBTYPE;        }
+"then"                        { return RW_THEN;           }
+"to"                          { return RW_TO;             }
+"transport"                   { return RW_TRANSPORT;      }
+"type"                        { return RW_TYPE;           }
+"unaffected"                  { return RW_UNAFFECTED;     }
+"units"                       { return RW_UNITS;          }
+"until"                       { return RW_UNTIL;          }
+"use"                         { return RW_USE;            }
+"variable"                    { return RW_VARIABLE;       }
+"wait"                        { return RW_WAIT;           }
+"when"                        { return RW_WHEN;           }
+"while"                       { return RW_WHILE;          }
+"with"                        { return RW_WITH;           }
+"xnor"                        { return RW_XNOR;           }
+"xor"                         { return RW_XOR;            }
 
-"=>"                          { return ARROW;            }
-":="                          { return VASSIGN;          }
-"<="                          { return LE;               }
-">="                          { return GE;               }
-"<>"                          { return BOX;              }
-"/="                          { return NE;               }
-"**"                          { return POW;              }
+"=>"                          { return ARROW;             }
+":="                          { return VASSIGN;           }
+"<="                          { return LE;                }
+">="                          { return GE;                }
+"<>"                          { return BOX;               }
+"/="                          { return NE;                }
+"**"                          { return POW;               }
 
-{LETTER}                      { return LETTER;           }
-{DIGIT}                       { return DIGIT;            }
-{UNDERLINE}                   { return UNDERLINE;        }
-
-[BOX]\"{BITVALUE}*\"          { return BITSTRING_LITERAL;}
-\"{CHARACTER}*\"              { return STRING_LITERAL;   }
-\'{CHARACTER}\'               { return CHARACTER_LITERAL;}
-{CHARACTER}                   { return CHARACTER;        }
+{BASIC_IDENTIFIER} |
+\\{GRAPHIC_CHARACTER}+\\      { return IDENTIFIER;        }
+{DECIMAL_LITERAL} |
+{BASED_LITERAL}               { return ABSTRACT_LITERAL;  }
+\'{GRAPHIC_CHARACTER}\'       { return CHARACTER_LITERAL; }
+\"{GRAPHIC_CHARACTER}*\"      { return STRING_LITERAL;    }
+[BOX]\"{BIT_VALUE}*\"         { return BIT_STRING_LITERAL;}
 
 "--".*\n                      {;}
 [\t\n\v\f\r]                  {;}
@@ -163,19 +163,3 @@ EINTEGER          {EDIGIT}(_?{EDIGIT}+)*
 . { return yytext[0]; }
 
 %%
-
-/*
-{LETTER}(_?{LETTER_OR_DIGIT}+)* |
-\\{CHARACTER}+\\ {
-   return IDENTIFIER;
-}
-
-{INTEGER}(\.{INTEGER})?{EXPONENT}? |
-{INTEGER}#{EINTEGER}(\.{EINTEGER})?#{EXPONENT}? {
-   return NUMBER; // ABSTRACT_LITERAL;
-}
-
-[BOX]\"({EDIGIT}(_?{EDIGIT}+)*)?\" {
-   return BITSTRING; // BIT_STRING_LITERAL;
-}
-*/
