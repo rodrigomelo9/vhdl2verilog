@@ -57,7 +57,7 @@
 %%
 
 entity_declaration :
-       RW_ENTITY IDENTIFIER RW_IS entity_header entity_declarative_part entity_declaration_opt1 RW_END entity_declaration_opt2 entity_declaration_opt3 ';'
+       RW_ENTITY IDENTIFIER RW_IS entity_header entity_declarative_part entity_declaration_opt1 RW_END entity_declaration_opt2 identifier_opt1 ';'
 
 entity_declaration_opt1 :
        /* empty */
@@ -67,9 +67,13 @@ entity_declaration_opt2 :
        /* empty */
      | RW_ENTITY
 
-entity_declaration_opt3 :
+identifier_opt1 :
        /* empty */
      | IDENTIFIER
+
+identifier_opt2 :
+       /* empty */
+     | IDENTIFIER ':'
 
 entity_header :
        entity_header_opt1 entity_header_opt2
@@ -83,14 +87,8 @@ entity_header_opt2 :
      | RW_PORT '(' interface_list ')' ';'
 
 entity_declarative_part :
-       entity_declarative_part_opt1
-
-entity_declarative_part_opt1 :
        /* empty */
-     | entity_declarative_part_opt1 entity_declarative_part_opt2
-
-entity_declarative_part_opt2 :
-       entity_declarative_item
+     | entity_declarative_part entity_declarative_item
 
 entity_declarative_item :
        subprogram_declaration
@@ -110,11 +108,8 @@ entity_declarative_item :
      | group_declaration
 
 entity_statement_part :
-       entity_statement_part_opt1
-
-entity_statement_part_opt1 :
        /* empty */
-     | entity_statement_part_opt1 entity_statement
+     | entity_statement_part entity_statement
 
 entity_statement :
        concurrent_assertion_statement
@@ -122,22 +117,15 @@ entity_statement :
      | process_statement
 
 architecture_body :
-       RW_ARCHITECTURE IDENTIFIER RW_OF name RW_IS architecture_declarative_part RW_BEGIN architecture_statement_part RW_END architecture_body_opt1 architecture_body_opt2 ';'
+       RW_ARCHITECTURE IDENTIFIER RW_OF name RW_IS architecture_declarative_part RW_BEGIN architecture_statement_part RW_END architecture_body_opt1 identifier_opt1 ';'
 
 architecture_body_opt1 :
        /* empty */
      | RW_ARCHITECTURE
 
-architecture_body_opt2 :
-       /* empty */
-     | IDENTIFIER
-
 architecture_declarative_part :
-       architecture_declarative_part_opt1
-
-architecture_declarative_part_opt1 :
        /* empty */
-     | architecture_declarative_part_opt1 block_declarative_item
+     | architecture_declarative_part block_declarative_item
 
 block_declarative_item :
        subprogram_declaration
@@ -159,29 +147,19 @@ block_declarative_item :
      | group_declaration
 
 architecture_statement_part :
-       architecture_statement_part_opt1
-
-architecture_statement_part_opt1 :
        /* empty */
-     | architecture_statement_part_opt1 concurrent_statement
+     | architecture_statement_part concurrent_statement
 
 configuration_declaration :
-       RW_CONFIGURATION IDENTIFIER RW_OF name RW_IS configuration_declarative_part block_configuration RW_END configuration_declaration_opt1 configuration_declaration_opt2 ';'
+       RW_CONFIGURATION IDENTIFIER RW_OF name RW_IS configuration_declarative_part block_configuration RW_END configuration_declaration_opt1 identifier_opt1 ';'
 
 configuration_declaration_opt1 :
        /* empty */
      | RW_CONFIGURATION
 
-configuration_declaration_opt2 :
-       /* empty */
-     | IDENTIFIER
-
 configuration_declarative_part :
-       configuration_declarative_part_opt1
-
-configuration_declarative_part_opt1 :
        /* empty */
-     | configuration_declarative_part_opt1 configuration_declarative_item
+     | configuration_declarative_part configuration_declarative_item
 
 configuration_declarative_item :
        use_clause
@@ -259,11 +237,8 @@ subprogram_body_opt2 :
      | designator
 
 subprogram_declarative_part :
-       subprogram_declarative_part_opt1
-
-subprogram_declarative_part_opt1 :
        /* empty */
-     | subprogram_declarative_part_opt1 subprogram_declarative_item
+     | subprogram_declarative_part subprogram_declarative_item
 
 subprogram_declarative_item :
        subprogram_declaration
@@ -281,11 +256,8 @@ subprogram_declarative_item :
      | group_declaration
 
 subprogram_statement_part :
-       subprogram_statement_part_opt1
-
-subprogram_statement_part_opt1 :
        /* empty */
-     | subprogram_statement_part_opt1 sequential_statement
+     | subprogram_statement_part sequential_statement
 
 subprogram_kind :
        RW_PROCEDURE
@@ -307,22 +279,15 @@ signature_opt3 :
      | signature_opt3 ',' name
 
 package_declaration :
-       RW_PACKAGE IDENTIFIER RW_IS package_declarative_part RW_END package_declaration_opt1 package_declaration_opt2 ';'
+       RW_PACKAGE IDENTIFIER RW_IS package_declarative_part RW_END package_declaration_opt1 identifier_opt1 ';'
 
 package_declaration_opt1 :
        /* empty */
      | RW_PACKAGE
 
-package_declaration_opt2 :
-       /* empty */
-     | IDENTIFIER
-
 package_declarative_part :
-       package_declarative_part_opt1
-
-package_declarative_part_opt1 :
        /* empty */
-     | package_declarative_part_opt1 package_declarative_item
+     | package_declarative_part package_declarative_item
 
 package_declarative_item :
        subprogram_declaration
@@ -342,22 +307,15 @@ package_declarative_item :
      | group_declaration
 
 package_body :
-       RW_PACKAGE RW_BODY IDENTIFIER RW_IS package_body_declarative_part RW_END package_body_opt1 package_body_opt2 ';'
+       RW_PACKAGE RW_BODY IDENTIFIER RW_IS package_body_declarative_part RW_END package_body_opt1 identifier_opt1 ';'
 
 package_body_opt1 :
        /* empty */
      | RW_PACKAGE RW_BODY
 
-package_body_opt2 :
-       /* empty */
-     | IDENTIFIER
-
 package_body_declarative_part :
-       package_body_declarative_part_opt1
-
-package_body_declarative_part_opt1 :
        /* empty */
-     | package_body_declarative_part_opt1 package_body_declarative_item
+     | package_body_declarative_part package_body_declarative_item
 
 package_body_declarative_item :
        subprogram_declaration
@@ -397,11 +355,7 @@ enumeration_literal :
      | CHARACTER_LITERAL
 
 physical_type_definition :
-       RW_RANGE range RW_UNITS IDENTIFIER physical_type_definition_opt2 RW_END RW_UNITS physical_type_definition_opt1
-
-physical_type_definition_opt1 :
-       /* empty */
-     | IDENTIFIER
+       RW_RANGE range RW_UNITS IDENTIFIER physical_type_definition_opt2 RW_END RW_UNITS identifier_opt1
 
 physical_type_definition_opt2 :
        /* empty */
@@ -444,11 +398,7 @@ discrete_range :
      | range
 
 record_type_definition :
-       RW_RECORD element_declaration record_type_definition_opt2 RW_END RW_RECORD record_type_definition_opt1
-
-record_type_definition_opt1 :
-       /* empty */
-     | IDENTIFIER
+       RW_RECORD element_declaration record_type_definition_opt2 RW_END RW_RECORD identifier_opt1
 
 record_type_definition_opt2 :
        /* empty */
@@ -593,14 +543,11 @@ mode :
      | RW_LINKAGE
 
 interface_list :
-       interface_element interface_list_opt1
+       interface_declaration interface_list_opt1
 
 interface_list_opt1 :
        /* empty */
-     | interface_list_opt1 ';' interface_element
-
-interface_element :
-       interface_declaration
+     | interface_list_opt1 ';' interface_declaration
 
 association_list :
        association_element association_list_opt1
@@ -649,7 +596,7 @@ attribute_declaration :
        RW_ATTRIBUTE IDENTIFIER ':' name ';'
 
 component_declaration :
-       RW_COMPONENT IDENTIFIER component_declaration_opt1 component_declaration_opt2 component_declaration_opt3 RW_END RW_COMPONENT component_declaration_opt4 ';'
+       RW_COMPONENT IDENTIFIER component_declaration_opt1 component_declaration_opt2 component_declaration_opt3 RW_END RW_COMPONENT identifier_opt1 ';'
 
 component_declaration_opt1 :
        /* empty */
@@ -662,10 +609,6 @@ component_declaration_opt2 :
 component_declaration_opt3 :
        /* empty */
      | RW_PORT '(' interface_list ')' ';'
-
-component_declaration_opt4 :
-       /* empty */
-     | IDENTIFIER
 
 group_template_declaration :
        RW_GROUP IDENTIFIER RW_IS '(' entity_class_entry_list ')' ';'
@@ -951,10 +894,7 @@ aggregate :
 
 aggregate_opt1 :
        /* empty */
-     | aggregate_opt1 aggregate_opt2
-
-aggregate_opt2 :
-       ',' element_association
+     | aggregate_opt1 ',' element_association
 
 element_association :
        expression
@@ -982,11 +922,7 @@ allocator :
      | RW_NEW qualified_expression
 
 sequence_of_statements :
-       sequence_of_statements_opt1
-
-sequence_of_statements_opt1 :
-       /* empty */
-     | sequence_of_statements_opt1 sequential_statement
+     | sequence_of_statements sequential_statement
 
 sequential_statement :
        wait_statement
@@ -1004,11 +940,7 @@ sequential_statement :
      | null_statement
 
 wait_statement :
-       wait_statement_opt1 RW_WAIT wait_statement_opt2 wait_statement_opt3 wait_statement_opt4 ';'
-
-wait_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt1 RW_WAIT wait_statement_opt2 wait_statement_opt3 wait_statement_opt4';'
 
 wait_statement_opt2 :
        /* empty */
@@ -1023,21 +955,14 @@ wait_statement_opt4 :
      | RW_FOR expression
 
 sensitivity_list :
-       name sensitivity_list_opt1
-
-sensitivity_list_opt1 :
        /* empty */
-     | sensitivity_list_opt1 ',' name
+     | sensitivity_list ',' name
 
 condition :
        expression
 
 assertion_statement :
-       assertion_statement_opt1 assertion ';'
-
-assertion_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt1 assertion ';'
 
 assertion :
        RW_ASSERT condition assertion_opt1 assertion_opt2
@@ -1051,11 +976,7 @@ assertion_opt2 :
      | RW_SEVERITY expression
 
 report_statement :
-       report_statement_opt1 RW_REPORT expression report_statement_opt2 ';'
-
-report_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 RW_REPORT expression report_statement_opt2 ';'
 
 report_statement_opt2 :
        /* empty */
@@ -1110,41 +1031,22 @@ procedure_call_statement :
      | IDENTIFIER ':' procedure_call ';'
 
 procedure_call :
-       name procedure_call_opt1
-
-procedure_call_opt1 :
-       /* empty */
-     | '(' association_list ')'
+       name
+     | name '(' association_list ')'
 
 if_statement :
-       if_statement_opt1 RW_IF condition RW_THEN sequence_of_statements if_statement_opt4 if_statement_opt2 RW_END RW_IF if_statement_opt3 ';'
-
-if_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 RW_IF condition RW_THEN sequence_of_statements if_statement_opt4 if_statement_opt2 RW_END RW_IF identifier_opt1 ';'
 
 if_statement_opt2 :
        /* empty */
      | RW_ELSE sequence_of_statements
-
-if_statement_opt3 :
-       /* empty */
-     | IDENTIFIER
 
 if_statement_opt4 :
        /* empty */
      | if_statement_opt4 RW_ELSIF condition RW_THEN sequence_of_statements
 
 case_statement :
-       case_statement_opt1 RW_CASE expression RW_IS case_statement_alternative case_statement_opt3 RW_END RW_CASE case_statement_opt2 ';'
-
-case_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
-
-case_statement_opt2 :
-       /* empty */
-     | IDENTIFIER
+       identifier_opt2 RW_CASE expression RW_IS case_statement_alternative case_statement_opt3 RW_END RW_CASE identifier_opt1 ';'
 
 case_statement_opt3 :
        /* empty */
@@ -1154,19 +1056,11 @@ case_statement_alternative :
        RW_WHEN choices "=>" sequence_of_statements
 
 loop_statement :
-       loop_statement_opt1 loop_statement_opt2 RW_LOOP sequence_of_statements RW_END RW_LOOP loop_statement_opt3 ';'
-
-loop_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 loop_statement_opt2 RW_LOOP sequence_of_statements RW_END RW_LOOP identifier_opt1 ';'
 
 loop_statement_opt2 :
        /* empty */
      | iteration_scheme
-
-loop_statement_opt3 :
-       /* empty */
-     | IDENTIFIER
 
 iteration_scheme :
        RW_WHILE condition
@@ -1176,52 +1070,28 @@ parameter_specification :
        IDENTIFIER RW_IN discrete_range
 
 next_statement :
-       next_statement_opt1 RW_NEXT next_statement_opt2 next_statement_opt3 ';'
-
-next_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
-
-next_statement_opt2 :
-       /* empty */
-     | IDENTIFIER
+       identifier_opt2 RW_NEXT identifier_opt1 next_statement_opt3 ';'
 
 next_statement_opt3 :
        /* empty */
      | RW_WHEN condition
 
 exit_statement :
-       exit_statement_opt1 RW_EXIT exit_statement_opt2 exit_statement_opt3 ';'
-
-exit_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
-
-exit_statement_opt2 :
-       /* empty */
-     | IDENTIFIER
+       identifier_opt2 RW_EXIT identifier_opt1 exit_statement_opt3 ';'
 
 exit_statement_opt3 :
        /* empty */
      | RW_WHEN condition
 
 return_statement :
-       return_statement_opt1 RW_RETURN return_statement_opt2 ';'
-
-return_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 RW_RETURN return_statement_opt2 ';'
 
 return_statement_opt2 :
        /* empty */
      | expression
 
 null_statement :
-       null_statement_opt1 RW_NULL ';'
-
-null_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 RW_NULL ';'
 
 concurrent_statement :
        block_statement
@@ -1233,7 +1103,7 @@ concurrent_statement :
      | generate_statement
 
 block_statement :
-       IDENTIFIER ':' RW_BLOCK block_statement_opt1 block_statement_opt2 block_header block_declarative_part RW_BEGIN block_statement_part RW_END RW_BLOCK block_statement_opt3 ';'
+       IDENTIFIER ':' RW_BLOCK block_statement_opt1 block_statement_opt2 block_header block_declarative_part RW_BEGIN block_statement_part RW_END RW_BLOCK identifier_opt1 ';'
 
 block_statement_opt1 :
        /* empty */
@@ -1242,10 +1112,6 @@ block_statement_opt1 :
 block_statement_opt2 :
        /* empty */
      | RW_IS
-
-block_statement_opt3 :
-       /* empty */
-     | IDENTIFIER
 
 block_header :
        block_header_opt1 block_header_opt2
@@ -1267,25 +1133,15 @@ block_header_opt4 :
      | RW_PORT RW_MAP '(' association_list ')' ';'
 
 block_declarative_part :
-       block_declarative_part_opt1
-
-block_declarative_part_opt1 :
        /* empty */
-     | block_declarative_part_opt1 block_declarative_item
+     | block_declarative_part block_declarative_item
 
 block_statement_part :
-       block_statement_part_opt1
-
-block_statement_part_opt1 :
        /* empty */
-     | block_statement_part_opt1 concurrent_statement
+     | block_statement_part concurrent_statement
 
 process_statement :
-       process_statement_opt1 process_statement_opt2 RW_PROCESS process_statement_opt3 process_statement_opt4 process_declarative_part RW_BEGIN process_statement_part RW_END process_statement_opt5 RW_PROCESS process_statement_opt6 ';'
-
-process_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 process_statement_opt2 RW_PROCESS process_statement_opt3 process_statement_opt4 process_declarative_part RW_BEGIN process_statement_part RW_END process_statement_opt5 RW_PROCESS identifier_opt1 ';'
 
 process_statement_opt2 :
        /* empty */
@@ -1303,16 +1159,9 @@ process_statement_opt5 :
        /* empty */
      | RW_POSTPONED
 
-process_statement_opt6 :
-       /* empty */
-     | IDENTIFIER
-
 process_declarative_part :
-       process_declarative_part_opt1
-
-process_declarative_part_opt1 :
        /* empty */
-     | process_declarative_part_opt1 process_declarative_part_opt2
+     | process_declarative_part process_declarative_part_opt2
 
 process_declarative_part_opt2 :
        process_declarative_item
@@ -1333,49 +1182,30 @@ process_declarative_item :
      | group_declaration
 
 process_statement_part :
-       process_statement_part_opt1
-
-process_statement_part_opt1 :
        /* empty */
-     | process_statement_part_opt1 sequential_statement
+     | process_statement_part sequential_statement
 
 concurrent_procedure_call_statement :
-       concurrent_procedure_call_statement_opt1 concurrent_procedure_call_statement_opt2 procedure_call ';'
-
-concurrent_procedure_call_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 concurrent_procedure_call_statement_opt2 procedure_call ';'
 
 concurrent_procedure_call_statement_opt2 :
        /* empty */
      | RW_POSTPONED
 
 concurrent_assertion_statement :
-       concurrent_assertion_statement_opt1 concurrent_assertion_statement_opt2 assertion ';'
-
-concurrent_assertion_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 concurrent_assertion_statement_opt2 assertion ';'
 
 concurrent_assertion_statement_opt2 :
        /* empty */
      | RW_POSTPONED
 
 concurrent_signal_assignment_statement :
-       concurrent_signal_assignment_statement_opt1 concurrent_signal_assignment_statement_opt2 conditional_signal_assignment
-     | concurrent_signal_assignment_statement_opt3 concurrent_signal_assignment_statement_opt4 selected_signal_assignment
-
-concurrent_signal_assignment_statement_opt1 :
-       /* empty */
-     | IDENTIFIER ':'
+       identifier_opt2 concurrent_signal_assignment_statement_opt2 conditional_signal_assignment
+     | identifier_opt2 concurrent_signal_assignment_statement_opt4 selected_signal_assignment
 
 concurrent_signal_assignment_statement_opt2 :
        /* empty */
      | RW_POSTPONED
-
-concurrent_signal_assignment_statement_opt3 :
-       /* empty */
-     | IDENTIFIER ':'
 
 concurrent_signal_assignment_statement_opt4 :
        /* empty */
@@ -1438,15 +1268,11 @@ instantiated_unit_opt2 :
      | '(' IDENTIFIER ')'
 
 generate_statement :
-       IDENTIFIER ':' generation_scheme RW_GENERATE generate_statement_opt1 generate_statement_opt3 RW_END RW_GENERATE generate_statement_opt2 ';'
+       IDENTIFIER ':' generation_scheme RW_GENERATE generate_statement_opt1 generate_statement_opt3 RW_END RW_GENERATE identifier_opt1 ';'
 
 generate_statement_opt1 :
        /* empty */
      | generate_statement_opt5 RW_BEGIN
-
-generate_statement_opt2 :
-       /* empty */
-     | IDENTIFIER
 
 generate_statement_opt3 :
        /* empty */
@@ -1498,11 +1324,8 @@ logical_name_list_opt1 :
      | logical_name_list_opt1 ',' IDENTIFIER
 
 context_clause :
-       context_clause_opt1
-
-context_clause_opt1 :
        /* empty */
-     | context_clause_opt1 context_item
+     | context_clause context_item
 
 context_item :
        RW_LIBRARY logical_name_list ';'
