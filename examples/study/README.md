@@ -13,6 +13,7 @@ signal NAME8  : positive range 5 to 10;
 signal NAME9  : signed[7 downto 0];
 signal NAME10 : unsigned[7 downto 0];
 signal NAME11 : std_logic_vector[7 downto 0];
+```
 
 * Verilog
 ```
