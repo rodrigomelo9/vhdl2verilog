@@ -35,3 +35,24 @@
 
 * Note: unconstrained strings seems not allowed in both standards, however,
 some tools support them as generic/parameter and constant/localparam.
+
+## Operators
+
+| VHDL                         | Verilog                                      |
+|------------------------------|----------------------------------------------|
+| NOT A                        | ~A *(bit-wise)*, !A *(logical)*              |
+| A AND B                      | A & B *(bit-wise)*, A && B *(logical)*       |
+| A OR B                       | A | B *(bit-wise)*, A || B *(logical)*       |
+| A XOR B                      | A ^ B *(bit-wise)*                           |
+| A NAND B                     | ~(A & B) *(bit-wise)*, !(A && B) *(logical)* |
+| A NOR B                      | ~(A | B) *(bit-wise)*, !(A || B) *(logical)* |
+| A XNOR B                     | ~(A ^ B) *(bit-wise)*                        |
+| ABS A                        | ( ( A < 0 ) ? -A : A )                       |
+| A REM B                      | A % B                                        |
+| A MOD B                      | *???*                                        |
+| A SLL B                      | A << B                                       |
+| A SRL B                      | A >> B                                       |
+| A SLA B                      | A <<< B                                      |
+| A SRA B                      | A >>> B                                      |
+| A ROR B                      | *???*                                        |
+| A ROL B                      | *???*                                        |
