@@ -1,7 +1,0 @@
-ignore
-
-*.tab.*
-lex.yy.c
-vhdl2verilog
-*_bin
-result.txt
